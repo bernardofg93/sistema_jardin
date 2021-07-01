@@ -96,13 +96,25 @@ class pacienteController
                 } elseif ($_POST['action'] == 'create') {
                     $user_id = $_SESSION['identity']->id_usuario;
                     $paciente->setId($user_id);
-                    $status = 'Activo';
-                    $paciente->setStatus_paciente($status);
                     $save = $paciente->save();
-                    $paciente->code();
+                    $paciente_id = $save['paciente_id'];
+                    //$paciente->code();
                 }
                 if ($save) {
-                    $_SESSION['registro'] = 'complete';
+                    //Se insertan las sustancias del paciente
+                    $sustancia = new Consumo();
+                    $arr = json_decode($_POST['arrData'], true);
+
+                    foreach ($arr as $row) {
+                        $sustancia->setPacienteId($paciente_id);
+                        $sustancia->setSustancia(filter_var($row['sustancia'], FILTER_SANITIZE_STRING));
+                        $sustancia->setFrecuenciaUso(filter_var($row['frecuencia'], FILTER_SANITIZE_STRING));
+                        $sustancia->setViaAdmin(filter_var($row['via'], FILTER_SANITIZE_STRING));
+                        $sustancia->setEdadUso(filter_var($row['edad'], FILTER_SANITIZE_STRING));
+                        $sustancia->setActualmente(filter_var($row['actualmente'], FILTER_SANITIZE_STRING));
+                        $sustancia->setEdadSinUso(filter_var($row['dejo_uso'], FILTER_SANITIZE_STRING));
+                        $sustancia->save();
+                    }
                 } else {
                     $_SESSION['registro'] = 'failed';
                 }

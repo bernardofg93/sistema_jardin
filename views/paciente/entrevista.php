@@ -36,8 +36,44 @@
 
 <div class="row">
     <?php if (isset($data) && is_object($data)) : ?>
-        <?php require_once 'views/paciente/datos.php' ?>
+        <div class="col-md-6">
+            <?php require_once 'views/paciente/datos.php' ?>
+        </div>
     <?php endif; ?>
+    <div class="col-md-6">
+        <div class="card card-light">
+            <div class="card-body">
+                <div class="form-group">
+                    <label for="juntas">¿Participabas en juntas?</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="juntas"
+                            value="<?= isset($obj) && is_object($obj) ? $obj->juntas : ''; ?>"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="recibo_informacion">¿Recibiste información sobre la prevención de recaídas?</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="recibo_informacion"
+                            value="<?= isset($obj) && is_object($obj) ? $obj->recibo_informacion : ''; ?>"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="constancia_reunion">¿Fuiste constante a las reuniones después de tu
+                        internamiento?</label>
+                    <input
+                            type="text"
+                            class="form-control"
+                            id="constancia_reunion"
+                            value="<?= isset($obj) && is_object($obj) ? $obj->constancia_reunion : ''; ?>"
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="col-md-6">
         <div class="card card-light">
             <form method="post" id="entrevistaInicial">
@@ -84,44 +120,6 @@
                         </div>
                     </div>
                 </div>
-        </div>
-    </div>
-</div>
-
-<div class=" row">
-    <!--  block 2 -->
-    <div class="col-md-6">
-        <div class="card card-light">
-            <div class="card-body">
-                <div class="form-group">
-                    <label for="juntas">¿Participabas en juntas?</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="juntas"
-                            value="<?= isset($obj) && is_object($obj) ? $obj->juntas : ''; ?>"
-                    >
-                </div>
-                <div class="form-group">
-                    <label for="recibo_informacion">¿Recibiste información sobre la prevención de recaídas?</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="recibo_informacion"
-                            value="<?= isset($obj) && is_object($obj) ? $obj->recibo_informacion : ''; ?>"
-                    >
-                </div>
-                <div class="form-group">
-                    <label for="constancia_reunion">¿Fuiste constante a las reuniones después de tu
-                        internamiento?</label>
-                    <input
-                            type="text"
-                            class="form-control"
-                            id="constancia_reunion"
-                            value="<?= isset($obj) && is_object($obj) ? $obj->constancia_reunion : ''; ?>"
-                    >
-                </div>
-            </div>
         </div>
     </div>
     <div class="col-md-6">

@@ -5,7 +5,7 @@
 }
 
 #indigo-btn {
-    background-color: #6f42c1 ;
+    background-color: #6f42c1;
     color: #fff;
 }
 
@@ -21,16 +21,18 @@
 }
 
 .visible {
-opacity: 1;
+    opacity: 1;
 }
+
 /** Colores de la notificacion**/
 .correcto {
-background-color: rgb(179,241, 117);
-color: green;
+    background-color: rgb(179, 241, 117);
+    color: green;
 }
+
 .error {
-background-color: rgb(238, 148, 166);
-color: rgb(163, 0, 33);
+    background-color: rgb(238, 148, 166);
+    color: rgb(163, 0, 33);
 }
 
 /* ===============PERSONAL================== */
@@ -42,17 +44,17 @@ color: rgb(163, 0, 33);
 }
 
 .container-personal {
-  display: flex;
+    display: flex;
 }
 
 @media screen and (min-width: 1558px) {
     .container-personal {
-       width: 70%;
+        width: 70%;
     }
 }
 
 /* ===============Entrevista================== */
-.card-datos-paciente .card{
+.card-datos-paciente .card {
     width: 100%;
     height: 100%;
 }
@@ -62,7 +64,7 @@ color: rgb(163, 0, 33);
     font-size: 12px;
 }
 
-@media screen and (min-width: 1450px){
+@media screen and (min-width: 1450px) {
     #consumo-th {
         font-size: 14px;
     }
@@ -82,5 +84,57 @@ label {
 }
 
 .btn-cns {
-    background: #ecf0f6 !important;
+    background:#e9edf3  !important;
+}
+
+/* =============== ON & OFF SCREENS ================== */
+.w-none {
+    display: none;
+}
+
+.w-show {
+    display: block;
+}
+
+/* =============== NAV BAR LINKS ================== */
+.main-header {
+    background: #563d7c !important;
+}
+
+nav ul li a {
+    color: #f2f2f2;
+}
+
+nav ul li a:hover {
+    color: #ddd;
+} 
+/* =============== Buttons ================== */
+.gen-button {
+    background: #563d7c;
+    color: #ddd;
+}
+
+.gen-button:hover {
+    color: #fff;
+}
+
+.fa-user-edit {
+    color: #f2f2f2;
+}
+
+.fa-trash-alt {
+    color: #f2f2f2;
+}
+
+/* =============== Titles headers ================== */
+.title-header {
+    font-size: 18px;
+}
+
+.color-manila {
+    background: #F1D592;
+}
+
+.color-manila-2 {
+    background: #C7B472;
 }

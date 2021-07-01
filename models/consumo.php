@@ -137,7 +137,6 @@ class Consumo
     }
 
     public function save(){
-        $id_user = $this->usuario_id;
         $id_pac = $this->paciente_id;
         $sust = $this->sustancia;
         $frec = $this->frecuencia_uso;
@@ -148,15 +147,11 @@ class Consumo
         $droga = $this->droga_impacto;
 
         $sql = "INSERT INTO consumo_sustancias VALUES(NULL,"
-        ."'$id_user','$id_pac','$sust','$frec','$via',"
-        ."'$edad_de','$actual','$edad_sin','$droga');";
+        ."'$id_pac','$sust','$frec','$via',"
+        ."'$edad_de','$actual','$edad_sin');";
 
-        $query = "SELECT * FROM consumo_sustancias WHERE paciente_id = $this->paciente_id";
-         
-        $valor = $this->db->query($query);
-        $resultado = mysqli_num_rows($valor);
-        
         $result = $this->db->query($sql);;
+
         if ($result) {
             return array(
                 'result' => 'true',
@@ -168,9 +163,10 @@ class Consumo
                 'actual' => $actual,
                 'edadSin' => $edad_sin,
                 'droga' => $droga,
-                'consumo_id' => $this->db->insert_id,
-                'conter' => $resultado
+                'consumo_id' => $this->db->insert_id
             );
+        }else {
+            return ['result' => 'false'];
         }
     }
     

@@ -259,7 +259,8 @@ class Paciente
         $result = $this->db->query($sql);
         if ($result) {
             return array(
-                'result' => 'true'
+                'result' => 'true',
+                'paciente_id' => $this->db->insert_id
             );
         }
     }

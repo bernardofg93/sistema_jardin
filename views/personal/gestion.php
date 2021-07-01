@@ -35,8 +35,8 @@
                     <td class="col-3"><?= $data->apellidos_us ?></td>
                     <td class="col-3"><?= $data->rol ?></td>
                     <td class="col-3"><?= $data->email ?></td>
-                    <td  class="col-1"><?= $data->status_us == 1 ? 'ACTIVO' : 'INACTIVO' ?></td>
-                    <td><a type="button" href="<?= base_url ?>usuario/editar&id=<?= $data->id_usuario ?>" class="btn btn-cns btn-flat">
+                    <td  class="col-1"><?= $data->status_us == 1 ? 'Activo' : 'Inactivo' ?></td>
+                    <td><a type="button" href="<?= base_url ?>usuario/editar&id=<?= $data->id_usuario ?>" class="btn gen-button btn-flat">
                         <i class="fas fa-user-edit"></i>
                         </a></td>
                 </tr>

@@ -1,5 +1,31 @@
-const registroPaciente = document.querySelector('#registroPaciente');
-const action = document.querySelector('#data-radios form');
+const registroPaciente = document.querySelector('#registroPaciente'),
+    action = document.querySelector('#data-radios form'),
+    windowScreen = document.querySelector('.container-fluid  #container-buttons'),
+    fecha = document.querySelector('#fecha_nac');
+
+eventListener();
+
+function eventListener() {
+    if (registroPaciente) {
+        registroPaciente.addEventListener('submit', readForm);
+    }
+    if (windowScreen) {
+        windowScreen.addEventListener('click', windowsScreen);
+    }
+    if (fecha) {
+        fecha.addEventListener('change', getFecha);
+    }
+}
+
+// Calcular fecha con input type date
+function getFecha(e) {
+    let myDate = e.target.value;
+    let fechanac = new Date(myDate);
+    let ahora = new Date();
+    let agnios = ahora.getFullYear() - fechanac.getFullYear();
+    let edad = document.querySelector('#edad');
+    edad.value = agnios;
+}
 
 //radios buttons actions
 const inputOtro = document.querySelector('#otro_acudio');
@@ -36,12 +62,6 @@ document.querySelector('#customRadio4').addEventListener('click', function (e) {
     inputOtro.disabled = true;
     document.querySelector('#customRadio5').checked = false;
 });
-
-eventListener();
-
-function eventListener() {
-    registroPaciente.addEventListener('submit', readForm);
-}
 
 function readForm(e) {
     e.preventDefault();
@@ -149,5 +169,16 @@ function editData(data) {
     xhr.send(data);
 }
 
-
-
+function windowsScreen(e) {
+    const windowIngreso = document.querySelector('#w-ingreso'),
+        windowSustancias = document.querySelector('#w-sustancias');
+    if (e.target.classList.contains('w-size')) {
+        windowSustancias.setAttribute('class', 'w-none');
+        windowIngreso.setAttribute('class', 'w-show');
+    }
+    if (e.target.classList.contains('w-minSize')) {
+        windowSustancias.classList.remove('class', 'w-none');
+        windowSustancias.setAttribute('class', 'w-show');
+        windowIngreso.setAttribute('class', 'w-none');
+    }
+}
