@@ -1,6 +1,6 @@
 <?php
 
-class domicilio
+class Domicilio
 {
     private $id_domicilio;
     private $usuario_id;
@@ -15,7 +15,8 @@ class domicilio
     private $tipo_parentes;
     private $domicilio_fam;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = Database::connect();
     }
 
@@ -26,7 +27,7 @@ class domicilio
 
     public function setIdDomicilio($id_domicilio)
     {
-        $this->id_domicilio = $id_domicilio;
+        $this->id_domicilio = $this->db->real_escape_string($id_domicilio);
     }
 
     public function getUsuarioId()
@@ -56,7 +57,7 @@ class domicilio
 
     public function setCalle($calle)
     {
-        $this->calle = $calle;
+        $this->calle = $this->db->real_escape_string($calle);
     }
 
     public function getNumero()
@@ -66,7 +67,7 @@ class domicilio
 
     public function setNumero($numero)
     {
-        $this->numero = $numero;
+        $this->numero = $this->db->real_escape_string($numero);
 
         return $this;
     }
@@ -78,7 +79,7 @@ class domicilio
 
     public function setColonia($colonia)
     {
-        $this->colonia = $colonia;
+        $this->colonia = $this->db->real_escape_string($colonia);
     }
 
     public function getMunicipio()
@@ -88,7 +89,7 @@ class domicilio
 
     public function setMunicipio($municipio)
     {
-        $this->municipio = $municipio;
+        $this->municipio = $this->db->real_escape_string($municipio);
     }
 
     public function getTelefono()
@@ -98,7 +99,7 @@ class domicilio
 
     public function setTelefono($telefono)
     {
-        $this->telefono = $telefono;
+        $this->telefono = $this->db->real_escape_string($telefono);
     }
 
     public function getNombreFamiliar()
@@ -108,7 +109,7 @@ class domicilio
 
     public function setNombreFamiliar($nombre_familiar)
     {
-        $this->nombre_familiar = $nombre_familiar;
+        $this->nombre_familiar = $this->db->real_escape_string($nombre_familiar);
     }
 
     public function getTelefonoFam()
@@ -118,7 +119,7 @@ class domicilio
 
     public function setTelefonoFam($telefono_fam)
     {
-        $this->telefono_fam = $telefono_fam;
+        $this->telefono_fam = $this->db->real_escape_string($telefono_fam);
     }
 
     public function getTipoParentes()
@@ -128,7 +129,7 @@ class domicilio
 
     public function setTipoParentes($tipo_parentes)
     {
-        $this->tipo_parentes = $tipo_parentes;
+        $this->tipo_parentes = $this->db->real_escape_string($tipo_parentes);
     }
 
     public function getDomicilioFam()
@@ -138,10 +139,11 @@ class domicilio
 
     public function setDomicilioFam($domicilio_fam)
     {
-        $this->domicilio_fam = $domicilio_fam;
+        $this->domicilio_fam = $this->db->real_escape_string($domicilio_fam);
     }
 
-    public function getOne(){
+    public function getOne()
+    {
         $sql = "SELECT
                 *
                 FROM domicilio d  
@@ -166,21 +168,25 @@ class domicilio
         $tipo_parentes_d = $this->tipo_parentes;
         $domicilio_fam_d = $this->domicilio_fam;
 
-        $sql = "INSERT INTO domicilio VALUES(NULL,"
-        ."'$id_user','$id_pac','$calle_d','$numero_d','$colonia_d',"
-        ."'$municipio_d','$telefono_d','$nombre_familiar_d','$telefono_fam_d',"
-        ."'$tipo_parentes_d','$domicilio_fam_d');";
-        
-        $result = $this->db->query($sql);
-        if ($result) {
-            return array(
-                'result' => 'true'
-            );
+        $sql = "INSERT INTO domicilio VALUES
+                             (
+                              NULL, '$id_pac', '$id_user', '$calle_d','$numero_d','$colonia_d',
+                              '$municipio_d', '$telefono_d', '$nombre_familiar_d',
+                              '$telefono_fam_d', '$tipo_parentes_d', '$domicilio_fam_d'
+                             )";
+        $save = $this->db->query($sql);
+
+        echo $this->db->error;
+        if ($save) {
+            return ['res' => 'true', 'paciente_id' => $id_pac, 'id_dom' => $this->db->insert_id];
+        } else {
+            return ['res' => 'false'];
         }
     }
-    
+
     public function edit()
     {
+        $pac_id = $this->paciente_id;
         $calle_d = $this->calle;
         $numero_d = $this->numero;
         $colonia_d = $this->colonia;
@@ -191,17 +197,18 @@ class domicilio
         $tipo_parentes_d = $this->tipo_parentes;
         $domicilio_fam_d = $this->domicilio_fam;
         $sql = "UPDATE domicilio 
-                SET 
-                calle='$calle_d',numero='$numero_d',colonia='$colonia_d',
-                municipio='$municipio_d',telefono='$telefono_d',nombre_familiar='$nombre_familiar_d',
-                telefono_fam='$telefono_fam_d',tipo_parentes='$tipo_parentes_d',domicilio_fam='$domicilio_fam_d'
-                WHERE paciente_id={$this->getPacienteId()} ";
-
+                SET
+                calle = '$calle_d',numero = '$numero_d',colonia = '$colonia_d',
+                municipio = '$municipio_d',telefono = '$telefono_d',nombre_familiar = '$nombre_familiar_d',
+                telefono_fam = '$telefono_fam_d',tipo_parentes = '$tipo_parentes_d',domicilio_fam = '$domicilio_fam_d',
+                id_domicilio = LAST_INSERT_ID(id_domicilio)
+                WHERE paciente_id ={$this->getPacienteId()}
+                ";
         $result = $this->db->query($sql);
+        //$test = $this->db->insert_id;
+        echo $this->db->error;
         if ($result) {
-            return array(
-        'result' => 'true'
-    );
+            return ['result' => 'true', 'paciente_id' => $pac_id, 'dom_id' => $this->db->insert_id];
         }
     }
 }

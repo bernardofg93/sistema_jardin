@@ -13,7 +13,8 @@ class Consumo
     private $edad_sin_uso;
     private $droga_impacto;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = Database::connect();
     }
 
@@ -118,25 +119,31 @@ class Consumo
         $this->droga_impacto = $droga_impacto;
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         $sql = "SELECT
                 *
                 FROM consumo_sustancias c  
                 INNER JOIN paciente p 
                 ON c.paciente_id = p.id_paciente     
                 WHERE p.id_paciente = {$this->getPacienteId()}";
-        return  $result = $this->db->query($sql);
+        return $result = $this->db->query($sql);
     }
 
-    public function getOne(){
+    public function getOne()
+    {
         $sql = "SELECT * FROM consumo_sustancias       
-                WHERE id_consumo_sust = {$this->getIdConsumoSust()}";
+                WHERE paciente_id = {$this->getPacienteId()}";
         $result = $this->db->query($sql);
-         return $result->fetch_object();   
-          
+        $data = array();
+        while ($row = $result->fetch_object()) {
+            $data[] = $row;
+        }
+        return $data;
     }
 
-    public function save(){
+    public function save()
+    {
         $id_pac = $this->paciente_id;
         $sust = $this->sustancia;
         $frec = $this->frecuencia_uso;
@@ -147,8 +154,8 @@ class Consumo
         $droga = $this->droga_impacto;
 
         $sql = "INSERT INTO consumo_sustancias VALUES(NULL,"
-        ."'$id_pac','$sust','$frec','$via',"
-        ."'$edad_de','$actual','$edad_sin');";
+            . "'$id_pac','$sust','$frec','$via',"
+            . "'$edad_de','$actual','$edad_sin');";
 
         $result = $this->db->query($sql);;
 
@@ -165,11 +172,11 @@ class Consumo
                 'droga' => $droga,
                 'consumo_id' => $this->db->insert_id
             );
-        }else {
+        } else {
             return ['result' => 'false'];
         }
     }
-    
+
     public function edit()
     {
         $sust = $this->sustancia;
@@ -198,7 +205,7 @@ class Consumo
                 'actual' => $actual,
                 'edadSin' => $edad_sin,
                 'droga' => $droga
-    );
+            );
         }
     }
 }

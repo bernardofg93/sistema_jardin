@@ -4,22 +4,24 @@ require_once 'models/domicilio.php';
 
 class domicilioController
 {
-    public function paciente(){
-        if($_GET['id']){
-        $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : false;
-        $paciente = new Paciente();
-        $paciente->setId($id);
-        $data = $paciente->getOne();
-        $domicilio = new Domicilio();
-        $domicilio->setPacienteId($id);
-        $dom = $domicilio->getOne();
-        require_once 'layout/header.php';
-        require_once 'layout/sidebar.php';
-        require_once 'views/paciente/domicilio.php';
+    public function paciente()
+    {
+        if ($_GET['id']) {
+            $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : false;
+            $paciente = new Paciente();
+            $paciente->setId($id);
+            $data = $paciente->getOne();
+            $domicilio = new Domicilio();
+            $domicilio->setPacienteId($id);
+            $dom = $domicilio->getOne();
+            require_once 'layout/header.php';
+            require_once 'layout/sidebar.php';
+            require_once 'views/paciente/domicilio.php';
         }
     }
 
-    public function save(){
+    public function save()
+    {
         if (isset($_POST)) {
             $calle = isset($_POST['calle']) ? filter_var($_POST['calle'], FILTER_SANITIZE_STRING) : false;
             $numero = isset($_POST['numero']) ? filter_var($_POST['numero'], FILTER_SANITIZE_STRING) : false;
@@ -45,23 +47,18 @@ class domicilioController
                 $domicilio->setDomicilioFam($domicilio_fam);
                 $domicilio->setPacienteId($paciente_id);
 
-                if ($_POST['action'] == 'edit') {
-                    $save = $domicilio->edit();
-                } elseif ($_POST['action'] == 'create') {
+                if ($_POST['action'] == 'create') {
                     $user_id = $_SESSION['identity']->id_usuario;
                     $domicilio->setUsuarioId($user_id);
-                    $save = $domicilio->save();
-                }
-                if ($save) {
-                    $_SESSION['registro'] = 'complete';
+                    $res = $domicilio->save();
                 } else {
-                    $_SESSION['registro'] = 'failed';
+                    $res = $domicilio->edit();
                 }
-    
+
             } else {
                 $_SESSION['registro'] = 'failed';
             }
-            echo json_encode($save);
+            echo json_encode($res);
         }
     }
 }

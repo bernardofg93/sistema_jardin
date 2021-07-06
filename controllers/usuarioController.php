@@ -131,7 +131,7 @@ class UsuarioController
                 if ($identity->rol == 'admin') {
                     $_SESSION['admin'] = true;
                 }
-                header('Location:' . base_url . 'usuario/home');
+                header('Location:' . base_url . 'inicio/index');
             } else {
                 $_SESSION['error_login'] = 'Identificacion fallida';
                 header("Location:" . base_url);

@@ -8,6 +8,11 @@ class consumoController
     public function registro()
     {
         if (isset($_GET['id'])) {
+            $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : false;
+            $consumo = new Consumo();
+            $consumo->setPacienteId($id);
+            $arrCons = $consumo->getOne();
+            $arr = json_decode(json_encode($arrCons), true);
             require_once 'layout/header.php';
             require_once 'layout/sidebar.php';
             require_once 'views/paciente/consumo_sustancias.php';

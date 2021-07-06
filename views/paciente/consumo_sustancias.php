@@ -5,9 +5,9 @@
 <?php endif ?>
 
 <?php
-    if(isset($_GET['id'])) {
-        $pacienteId = filter_var($_GET['id'], FILTER_VALIDATE_INT);
-    }
+if (isset($_GET['id'])) {
+    $pacienteId = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+}
 ?>
 
 
@@ -19,9 +19,11 @@
                     Guardar <i class="far fa-save"></i>
                 </button>
                 <!-- Min size -->
+                <!--
                 <a type="button" id="min" class="btn btn-cns btn-flat w-minSize">
                     Consumo sustancias <i class="far fa-window-maximize w-minSize"></i>
                 </a>
+                -->
                 <a type="button" class="btn btn-danger btn-flat"
                    href="<?= base_url ?>docs/contrato_ingreso_esp.php?&id=<?= $data->id_paciente ?>">
                     <i class="fas fa-file-pdf"></i>
@@ -31,7 +33,7 @@
     </div>
 </div>
 
-<section id="w-sustancias" >
+<section id="w-sustancias">
     <form id="sendSustancias">
         <div class="row">
             <div class="col-sm-12">
@@ -54,14 +56,48 @@
                                 <th style="font-size: 12px;">Eliminar</th>
                             </tr>
                             </thead>
-                            <tbody id="sustanciasPaciente">
-
+                            <tbody id="sustanciasPaciente"
+                            <?php
+                            foreach ($arrCons as $i) {
+                                //var_dump($i->id_consumo_sustancias);
+                                echo "<tr>
+                                        <td>
+                                            $i->sustancia
+                                        </td>
+                                                  <td>
+                                            $i->frecuencia_uso
+                                        </td>
+                                                  <td>
+                                            $i->via_admin
+                                        </td>
+                                                  <td>
+                                            $i->edad_uso
+                                        </td>
+                                                  <td>
+                                        $i->actualmente
+                                        </td>
+                                                  <td>
+                                           $i->edad_sin_uso
+                                        </td>
+                                                  <td>
+                                                    <a href='' class='btn btn-primary btn-sm btn-edit'>
+                                                    <i class='fas fa-pencil-alt btn-actions'></i>
+                                                    </a>
+                                        </td>                                        </td>
+                                               <td>
+                                                    <a href='' class='btn btn-danger btn-sm btn-edit'>
+                                                    <i class='fas fa-trash btn-actions'></i>
+                                               </a>
+                                        </td>
+                                        
+                                    </tr>";
+                            }
+                            ?>
                             </tbody>
                         </table>
                     </div>
                 </div>
             </div>
-
             <div class="col-sm-6">
                 <div class="card">
                     <div class="card-body">
@@ -147,7 +183,7 @@
                             <label for="acudio">
                                 Numero de tratamientos previos por consumo de sustancias:</label>
                             <div class="col-sm-6">
-                                <input pattern="[a-zA-Z ]*" type="text" class="form-control" id="numTratamientos"
+                                <input type="number" class="form-control" id="numTratamientos"
                                        value="<?= isset($data) && is_object($data) ? $data->nombre_pa : ''; ?>">
                             </div>
                         </div>
@@ -317,7 +353,7 @@
                     </div>
 
                     <input type="hidden" id="sustanciaId">
-                    <input type="hidden" id="pacienteId" value="<?= $pacienteId ?>" >
+                    <input type="hidden" id="pacienteId" value="<?= $pacienteId ?>">
                     <button type="submit" class="btn btn-cns btn-flatt btnAction">
                         <i class="far fa-save btnAction"> Guardar</i>
                     </button>

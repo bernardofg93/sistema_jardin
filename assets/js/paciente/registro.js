@@ -1,7 +1,9 @@
 const registroPaciente = document.querySelector('#registroPaciente'),
     action = document.querySelector('#data-radios form'),
     windowScreen = document.querySelector('.container-fluid  #container-buttons'),
-    fecha = document.querySelector('#fecha_nac');
+    fecha = document.querySelector('#fecha_nac'),
+    inputActions = document.querySelector('.card #groupRadios'),
+    inputOtroAcudio = document.querySelector('#inputOtroAcudio');
 
 eventListener();
 
@@ -15,6 +17,9 @@ function eventListener() {
     if (fecha) {
         fecha.addEventListener('change', getFecha);
     }
+    if (inputActions) {
+        inputActions.addEventListener('click', actionRadAcudio);
+    }
 }
 
 // Calcular fecha con input type date
@@ -27,56 +32,32 @@ function getFecha(e) {
     edad.value = agnios;
 }
 
-//radios buttons actions
-const inputOtro = document.querySelector('#otro_acudio');
-
-document.querySelector('#customRadio5').addEventListener('click', function (e) {
-    inputOtro.disabled = false;
-    const rbs = document.querySelectorAll('input[name="customRadio"]');
-    let selectRadio;
-    for (const rb of rbs) {
-        if (rb.checked) {
-            selectRadio = rb;
-            break;
-        }
+//radio acudio
+function actionRadAcudio(e) {
+    if (e.target.classList.contains('radioAcudio')) {
+        inputOtroAcudio.disabled = false;
+    } else {
+        inputOtroAcudio.disabled = true;
+        inputOtroAcudio.value = "";
     }
-    selectRadio.checked = false;
-});
+}
 
-document.querySelector('#customRadio1').addEventListener('click', function (e) {
-    inputOtro.disabled = true;
-    document.querySelector('#customRadio5').checked = false;
-});
-
-document.querySelector('#customRadio2').addEventListener('click', function (e) {
-    inputOtro.disabled = true;
-    document.querySelector('#customRadio5').checked = false;
-});
-
-document.querySelector('#customRadio3').addEventListener('click', function (e) {
-    inputOtro.disabled = true;
-    document.querySelector('#customRadio5').checked = false;
-});
-
-document.querySelector('#customRadio4').addEventListener('click', function (e) {
-    inputOtro.disabled = true;
-    document.querySelector('#customRadio5').checked = false;
-});
-
+//radios buttons actions
 function readForm(e) {
     e.preventDefault();
 
     //se obtiene el valor de el radio seleccionado
-    const rbs = document.querySelectorAll('input[name="customRadio"]');
+    const rbs = document.querySelectorAll('input[name="radAcudio"]');
     let selectRadio;
     for (const rb of rbs) {
         if (rb.checked) {
-            selectRadio = rb.value;
+            if (rb.value === 'otro') {
+                selectRadio = inputOtroAcudio.value;
+            } else {
+                selectRadio = rb.value;
+            }
             break;
         }
-    }
-    if (document.querySelector('#customRadio5').checked) {
-        selectRadio = document.querySelector('#otro_acudio').value;
     }
 
     const nombre = document.querySelector('#nombre').value,
@@ -136,6 +117,23 @@ function insertData(data) {
             if (result.result === 'true') {
                 // mostrar notificación de Correcto
                 sweetAlert('Se ejecuto correctamente', 'success');
+                //PDF
+                //Generar Boton PDF
+                const $button = document.createElement('a');
+                $button.setAttribute('class', 'btn btn-danger btn-flat');
+                $button.href = `http://localhost/soft_jrd/docs/ingreso.php?&idP=${result.paciente_id}`;
+                $button.setAttribute('target', '_blank');
+
+                //Icon Pdf
+                const $icon = document.createElement('i');
+                $icon.setAttribute('class', 'fas fa-file-pdf');
+
+                //Agregar icono al boton
+                $button.appendChild($icon);
+
+                //Agregar a su contenedor
+                const containerButtons = document.querySelector('#container-buttons');
+                containerButtons.appendChild($button);
                 registroPaciente.reset();
             } else {
                 // hubo un error

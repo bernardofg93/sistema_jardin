@@ -23,7 +23,7 @@ function readForm(e) {
         recibo_informacion = document.querySelector('#recibo_informacion').value,
         constancia_reunion = document.querySelector('#constancia_reunion').value,
         action = document.querySelector('#action').value;
-    paciente_id = document.querySelector('#paciente_id').value;
+        paciente_id = document.querySelector('#paciente_id').value;
 
     const data = new FormData();
     data.append("como_llegaste", como_llegaste);

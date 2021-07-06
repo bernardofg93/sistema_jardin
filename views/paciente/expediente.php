@@ -18,7 +18,7 @@
         <div class="row">
             <div class="col-md-3">
                 <!-- Profile Image -->
-                <div class="card card-primary card-outline">
+                <div class="card card-primary">
                     <div class="card-body box-profile">
                         <div class="text-center">
                             <img class="profile-user-img img-fluid img-circle"
@@ -50,9 +50,9 @@
                                                 <div class="small-box bg color-manila">
                                                     <div class="inner">
                                                         <?php if (isset($data) && is_object($data)): ?>
-                                                            <i class="fas fa-check"></i>
+                                                            <i class="fas fa-check"></i> <span>Generado</span>
                                                         <?php else : ?>
-                                                            <i class="fas fa-plus"></i>
+                                                            <i class="fas fa-plus"></i>Generar
                                                         <?php endif; ?>
                                                         <p>Datos personales</p>
                                                     </div>
@@ -90,9 +90,9 @@
                                                 <div class="small-box bg color-manila">
                                                     <div class="inner">
                                                         <?php if (isset($dom) && is_object($dom)): ?>
-                                                            <i class="fas fa-check"></i>
+                                                            <i class="fas fa-check"></i> <span>Generado</span>
                                                         <?php else : ?>
-                                                            <i class="fas fa-plus"></i>
+                                                            <i class="fas fa-plus"></i> <span>Generar</span>
                                                         <?php endif; ?>
                                                         <p>Domicilio</p>
                                                     </div>

@@ -1,14 +1,19 @@
 <!-- comprovate if exist darta of user -->
-<?php if (isset($edit) && is_object($edit)) : ?>
-    <?php $action = 'edit' ?>
+<?php if (isset($edit) && $edit) : ?>
+    <?php $action = 'edit'; ?>
 <?php else : ?>
     <?php $action = 'create' ?>
 <?php endif ?>
 
+<?php
+$paciente_id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : false;
+?>
+
+
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <?php if (isset($edit) && is_object($edit)) : ?>
+            <?php if (isset($edit) && $edit) : ?>
                 <h4 class="title-header">Actualizar Registro</h4>
             <?php else : ?>
                 <h4 class="title-header">Nuevo Registro</h4>
@@ -16,12 +21,13 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-                <?php if (isset($edit) && is_object($edit)) : ?>
+                <?php if (isset($edit) && $edit) : ?>
                     <li class="breadcrumb-item"><a
-                                href="<?= base_url ?>paciente/expediente&id=<?= $data->id_paciente ?>">Expediente</a>
+                                href="<?= base_url ?>paciente/expediente&id=<?= $paciente_id ?>">Expediente</a>
                     </li>
                 <?php else : ?>
-                    <li class="breadcrumb-item"><a href="<?= base_url ?>paciente/administracion ?>">Administración</a>
+                    <li class="breadcrumb-item"><a
+                                href="<?= base_url ?>paciente/administracion">Administracion</a>
                     </li>
                 <?php endif; ?>
                 <li class="breadcrumb-item active">Registro</li>
@@ -30,10 +36,10 @@
     </div>
 </div>
 
-<div class="row" id="container-buttons">
+<div class="row">
     <div class="col-sm-6">
         <div class="card card-white">
-            <div class="card-body">
+            <div class="card-body" id="container-buttons">
                 <button type="submit" form="registroPaciente" class="btn gen-button btn-flat">
                     Guardar <i class="far fa-save"></i>
                 </button>
@@ -42,18 +48,23 @@
                     Información general <i class="far fa-window-maximize w-size"></i>
                 </a>
                 -->
-                <a type="button" class="btn btn-danger btn-flat"
-                   href="<?= base_url ?>docs/contrato_ingreso_esp.php?&id=<?= $data->id_paciente ?>">
+                <a target="_blank" type="button" class="btn btn-danger btn-flat"
+                   href="<?= base_url ?>docs/ingreso.php?&idP=<?= $paciente_id ?>">
                     <i class="fas fa-file-pdf"></i>
                 </a>
             </div>
         </div>
-    </div>
+    </div>s
 </div>
 
 <section id="w-ingreso">
     <form method="post" id="registroPaciente">
         <div class="row">
+            <?php if (isset($data) && is_object($data)) : ?>
+                <div class="col-md-6">
+                    <?php require_once 'views/paciente/datos.php' ?>
+                </div>
+            <?php endif; ?>
             <div class="col-md-6">
                 <div class="card card-light">
                     <div class="card-body">
@@ -127,60 +138,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="card card-light">
-                    <!-- radio -->
-                    <div class="card-body">
-                        <div class="form-group">
-                            <label for="acudio">acudió a esta institución</label>
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input inactive" value="Voluntario" type="radio"
-                                       id="customRadio1"
-                                       name="customRadio" <?= isset($data) && is_object($data) && $data->acudio == 'Voluntario' ? 'checked="checked"' : ''; ?>>
-                                <label for="customRadio1" class="custom-control-label">Voluntario</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input inactive" value="Petición familiar" type="radio"
-                                       id="customRadio2"
-                                       name="customRadio" <?= isset($data) && is_object($data) && $data->acudio == 'Petición familiar' ? 'checked="checked"' : ''; ?>>
-                                <label for="customRadio2" class="custom-control-label">Petición familiar</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input inactive" value="Indicación legal" type="radio"
-                                       id="customRadio3"
-                                       name="customRadio" <?= isset($data) && is_object($data) && $data->acudio == 'Indicación legal' ? 'checked="checked"' : ''; ?>>
-                                <label for="customRadio3" class="custom-control-label">Indicación legal</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input inactive" value="Indicación medica" type="radio"
-                                       id="customRadio4"
-                                       name="customRadio" <?= isset($data) && is_object($data) && $data->acudio == 'Indicación medica' ? 'checked="checked"' : ''; ?>>
-                                <label for="customRadio4" class="custom-control-label">Indicación medica</label>
-                            </div>
-                            <div class="custom-control custom-radio">
-                                <input class="custom-control-input" type="radio" id="customRadio5" name="custom">
-                                <label for="customRadio5" class="custom-control-label">Otro</label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label for="otro_acudio">Otro</label>
-                            <input type="text" class="form-control" id="otro_acudio" name="otro_acudio"
-                                   value="<?= isset($data) && is_object($data)
-                                   && $data->acudio != 'Voluntario'
-                                   && $data->acudio != 'Petición familiar'
-                                   && $data->acudio != 'Indicación legal'
-                                   && $data->acudio != 'Indicación medica'
-                                       ? $data->acudio : '' ?>" disabled>
-                        </div>
-
-                        <input type="hidden" id="id_paciente" value="<?= $data->id_paciente ?>">
-                        <input type="hidden" id="action" value="<?php echo $action; ?>">
-                    </div>
-                </div>
             </div>
             <div class="col-md-6">
-                <?php if (isset($data) && is_object($data)) : ?>
-                    <?php require_once 'views/paciente/datos.php' ?>
-                <?php endif; ?>
                 <div class="card card-light">
                     <div class="card-body">
                         <div class="row">
@@ -204,9 +163,9 @@
                             <div class="form-group col-6">
                                 <label for="edo_civil">Estado Civil</label>
                                 <select class="form-control form-control" id="edo_civil">
-                                    <option value="<?= isset($data) && is_object($data) ? $data->edo_civil : ''; ?>"
-                                            disabled
-                                            selected><?= isset($edit) && is_object($edit) ? $edit->edo_civil : 'Selecciona'; ?></option>
+                                    <option disabled selected>
+                                        <?= isset($data) && is_object($data) ? $data->edo_civil : 'Selecciona..'; ?>
+                                    </option>
                                     <option value="Soltero">Soltero</option>
                                     <option value="Casado">Casado</option>
                                     <option value="Divorciado">Divorciado</option>
@@ -229,6 +188,57 @@
                                        value="<?= isset($data) && is_object($data) ? $data->religion : ''; ?>">
                             </div>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card card-light">
+                    <!-- radio -->
+                    <div class="card-body">
+                        <div class="form-group" id="groupRadios">
+                            <label for="acudio">acudió a esta institución</label>
+                            <div>
+                                <input value="Voluntario" type="radio" class="radsAcudio"
+                                       name="radAcudio" <?= isset($data) && is_object($data) && $data->acudio == 'Voluntario' ? 'checked="checked"' : ''; ?>>
+                                <label>Voluntario</label>
+                            </div>
+                            <div>
+                                <input value="Petición familiar" type="radio" class="radsAcudio"
+                                       name="radAcudio" <?= isset($data) && is_object($data) && $data->acudio == 'Petición familiar' ? 'checked="checked"' : ''; ?>>
+                                <label>Petición familiar</label>
+                            </div>
+                            <div>
+                                <input value="Indicación legal" type="radio"
+                                       name="radAcudio" <?= isset($data) && is_object($data) && $data->acudio == 'Indicación legal' ? 'checked="checked"' : ''; ?>>
+                                <label>Indicación legal</label>
+                            </div>
+
+                            <div>
+
+                                <input value="Indicación medica" type="radio"
+                                       name="radAcudio" <?= isset($data) && is_object($data) && $data->acudio == 'Indicación medica' ? 'checked="checked"' : ''; ?>>
+                                <label>Indicación medica</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" name="radAcudio" id="radOtroAcudio" class="radioAcudio"
+                                       value="otro">
+                                <label for="customRadio5">Otro</label>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="otro_acudio">Otro</label>
+                            <input type="text" class="form-control" id="inputOtroAcudio" name="otro_acudio"
+                                   value="<?= isset($data) && is_object($data)
+                                   && $data->acudio != 'Voluntario'
+                                   && $data->acudio != 'Petición familiar'
+                                   && $data->acudio != 'Indicación legal'
+                                   && $data->acudio != 'Indicación medica'
+                                       ? $data->acudio : '' ?>" disabled>
+                        </div>
+
+                        <input type="hidden" id="id_paciente" value="<?= $data->id_paciente ?>">
+                        <input type="hidden" id="action" value="<?php echo $action; ?>">
                     </div>
                 </div>
             </div>

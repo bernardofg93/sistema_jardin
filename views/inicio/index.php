@@ -40,7 +40,7 @@
             <div class="icon">
                 <i class="fas fa-users"></i>
             </div>
-            <a href="<?= base_url ?>paciente/registros" class="small-box-footer"><i
+            <a href="<?= base_url ?>paciente/administracion" class="small-box-footer"><i
                         class="fas fa-arrow-circle-right"></i></a>
         </div>
     </div>

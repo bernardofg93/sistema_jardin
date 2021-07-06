@@ -1,5 +1,6 @@
 <!-- change password -->
-<div class="card">
+<div class="col-md-12">
+    <div class="card row">
         <div class="card-header">
             <h3 class="card-title">Datos paciente</h3>
         </div>
@@ -33,5 +34,7 @@
             </div>
         </div>
     </div>
+</div>
+
 
 
