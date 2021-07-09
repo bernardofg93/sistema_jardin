@@ -1,9 +1,55 @@
+CREATE DATABASE db_soft_jrm
 
--- --------------------------------------------------------
+use db_soft_jrm;
 
+
+CREATE TABLE `antecedentes_familiares` (
+                                           `id_antecedentes_familiares` int(255) AUTO_INCREMENT NOT NULL ,
+                                           `paciente_id` int(255) NOT NULL,
+                                           `enfermedad_familiar_id` int(255) NOT NULL,
+                                           `familiar_paciente_id` int(255) NOT NULL
+CONSTRAINT pk_antecedentes_familiares PRIMARY KEY(id_antecedentes_familiares)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `antecedentes_familiares`
+    ADD PRIMARY KEY (`id_antecedentes_familiares`),
+  ADD KEY `fk_antecedentes_familiares_paciente` (`paciente_id`),
+  ADD KEY `fk_antecedentes_familiares_familiar_paciente` (`enfermedad_familiar_id`);
+ALTER TABLE `antecedentes_familiares`
+    ADD CONSTRAINT `fk_antecedentes_familiares_enfermedad_familiar` FOREIGN KEY (`enfermedad_familiar_id`) REFERENCES `enfermedad_familiar` (`id_enfermedad_familiar`),
+  ADD CONSTRAINT `fk_antecedentes_familiares_familiar_paciente` FOREIGN KEY (`enfermedad_familiar_id`) REFERENCES `familiar_paciente` (`id_enfermedad_paciente`),
+  ADD CONSTRAINT `fk_antecedentes_familiares_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`)
+
+-- AUTO_INCREMENT de la tabla `antecedentes_familiares`
 --
--- Estructura de tabla para la tabla `antecedentes_patologicos`
---
+ALTER TABLE `antecedentes_familiares`
+    MODIFY `id_antecedentes_familiares` int(255) NOT NULL AUTO_INCREMENT;
+
+
+CREATE TABLE `antecedentes_no_patologicos` (
+                                               `id_antecedentes_no_pat` int(255) NOT NULL,
+                                               `paciente_id` int(255) DEFAULT NULL,
+                                               `trabajo` varchar(15) DEFAULT NULL,
+                                               `ingreso_mensual` varchar(25) DEFAULT NULL,
+                                               `miembros_familia` varchar(20) DEFAULT NULL,
+                                               `personas_habitacion` varchar(20) DEFAULT NULL,
+                                               `mascotas` varchar(15) DEFAULT NULL,
+                                               `drenaje` varchar(15) DEFAULT NULL,
+                                               `agua` varchar(15) DEFAULT NULL,
+                                               `tipo_alimentacion` varchar(20) DEFAULT NULL,
+                                               `pasatiempos` varchar(50) DEFAULT NULL,
+                                               `suenos` varchar(15) DEFAULT NULL,
+                                               `inmunizacion` varchar(15) DEFAULT NULL,
+                                               `tipo_sanguineo` varchar(50) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+ALTER TABLE `antecedentes_no_patologicos`
+    ADD PRIMARY KEY (`id_antecedentes_no_pat`),
+  ADD KEY `fk_antecedentes_no_patologicos_paciente` (`paciente_id`);
+ALTER TABLE `antecedentes_no_patologicos`
+    ADD CONSTRAINT `fk_antecedentes_no_patologicos_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
+
+
 
 CREATE TABLE `antecedentes_patologicos` (
                                             `id_antecedentes_patologicos` int(255) NOT NULL,
@@ -19,12 +65,15 @@ CREATE TABLE `antecedentes_patologicos` (
                                             `alcoholismo` varchar(15) DEFAULT NULL,
                                             `toxicomanias` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `antecedentes_patologicos`
+    ADD PRIMARY KEY (`id_antecedentes_patologicos`),
+  ADD KEY `fk_antecedentes_patologicos_paciente` (`paciente_id`);
+ALTER TABLE `antecedentes_patologicos`
+    MODIFY `id_antecedentes_patologicos` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `antecedentes_patologicos`
+    ADD CONSTRAINT `fk_antecedentes_patologicos_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
--- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `consumo_sustancias`
---
 
 CREATE TABLE `consumo_sustancias` (
                                       `id_consumo_sustancias` int(255) NOT NULL,
@@ -36,10 +85,14 @@ CREATE TABLE `consumo_sustancias` (
                                       `actualmente` varchar(20) DEFAULT NULL,
                                       `edad_sin_uso` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `consumo_sustancias`
+    ADD PRIMARY KEY (`id_consumo_sustancias`),
+  ADD KEY `fk_consumo_sustancias_paciente` (`paciente_id`);
+ALTER TABLE `consumo_sustancias`
+    MODIFY `id_consumo_sustancias` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
+ALTER TABLE `consumo_sustancias`
+    ADD CONSTRAINT `fk_consumo_sustancias_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
-
--- Estructura de tabla para la tabla `domicilio`
---
 
 CREATE TABLE `domicilio` (
                              `id_domicilio` int(255) NOT NULL,
@@ -55,12 +108,13 @@ CREATE TABLE `domicilio` (
                              `tipo_parentes` varchar(20) DEFAULT NULL,
                              `domicilio_fam` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
---
--- Estructura de tabla para la tabla `egreso`
---
+ALTER TABLE `domicilio`
+    ADD PRIMARY KEY (`id_domicilio`),
+  ADD KEY `fk_domicilio_paciente` (`paciente_id`);
+ALTER TABLE `domicilio`
+    MODIFY `id_domicilio` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+ALTER TABLE `domicilio`
+    ADD CONSTRAINT `fk_domicilio_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
 CREATE TABLE `egreso` (
                           `id_egreso` int(255) NOT NULL,
@@ -68,12 +122,14 @@ CREATE TABLE `egreso` (
                           `motivo_egreso` varchar(20) DEFAULT NULL,
                           `fecha_egreso` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `egreso`
+    ADD PRIMARY KEY (`id_egreso`),
+  ADD KEY `fk_egreso_paciente` (`paciente_id`)
+ALTER TABLE `egreso`
+    MODIFY `id_egreso` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `egreso`
+    ADD CONSTRAINT `fk_egreso_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `egreso_autorizacion`
---
 
 CREATE TABLE `egreso_autorizacion` (
                                        `id_egreso_autorizacion` int(255) NOT NULL,
@@ -83,20 +139,25 @@ CREATE TABLE `egreso_autorizacion` (
                                        `prevencion_recaidas` text DEFAULT NULL,
                                        `observaciones` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `egreso_autorizacion`
+    ADD PRIMARY KEY (`id_egreso_autorizacion`),
+  ADD KEY `fk_egreso_autorizacion_paciente` (`paciente_id`);
+ALTER TABLE `egreso_autorizacion`
+    MODIFY `id_egreso_autorizacion` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `egreso_autorizacion`
+    ADD CONSTRAINT `fk_egreso_autorizacion_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
-
---
--- Estructura de tabla para la tabla `enfermedad_familiar`
---
 
 CREATE TABLE `enfermedad_familiar` (
                                        `id_enfermedad_familiar` int(255) NOT NULL,
                                        `nombre_enf` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `enfermedad_familiar`
+    ADD PRIMARY KEY (`id_enfermedad_familiar`);
+ALTER TABLE `enfermedad_familiar`
+    MODIFY `id_enfermedad_familiar` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
---
--- Estructura de tabla para la tabla `entrevista`
---
+
 
 CREATE TABLE `entrevista` (
                               `id_entrevista` int(255) NOT NULL,
@@ -119,12 +180,13 @@ CREATE TABLE `entrevista` (
                               `fecha_alta_entrevista` date DEFAULT NULL,
                               `hora_alta_entrevista` time DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
-
---
--- Estructura de tabla para la tabla `evolucion_paciente`
---
+ALTER TABLE `entrevista`
+    ADD PRIMARY KEY (`id_entrevista`),
+  ADD KEY `fk_entrevista_paciente` (`paciente_id`);
+ALTER TABLE `entrevista`
+    MODIFY `id_entrevista` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `entrevista`
+    ADD CONSTRAINT `fk_entrevista_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
 CREATE TABLE `evolucion_paciente` (
                                       `id_evolucion_paciente` int(255) NOT NULL,
@@ -132,22 +194,21 @@ CREATE TABLE `evolucion_paciente` (
                                       `fecha_elaboracion` date DEFAULT NULL,
                                       `nota_evolucion` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `evolucion_paciente`
+    ADD PRIMARY KEY (`id_evolucion_paciente`),
+  ADD KEY `fk_evolucion_paciente_paciente` (`paciente_id`);
+ALTER TABLE `evolucion_paciente`
+    MODIFY `id_evolucion_paciente` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `evolucion_paciente`
+    ADD CONSTRAINT `fk_evolucion_paciente_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `familiar_paciente`
---
 
 CREATE TABLE `familiar_paciente` (
                                      `id_enfermedad_paciente` int(255) NOT NULL,
                                      `nombre_familiar_pa` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
---
--- Estructura de tabla para la tabla `inspeccion_general`
---
+ALTER TABLE `familiar_paciente`
+    ADD PRIMARY KEY (`id_enfermedad_paciente`);
 
 CREATE TABLE `inspeccion_general` (
                                       `id_inspeccion_general` int(255) NOT NULL,
@@ -172,12 +233,15 @@ CREATE TABLE `inspeccion_general` (
                                       `enfermedades_inf` varchar(50) DEFAULT NULL,
                                       `otro_enf` varchar(50) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `inspeccion_general`
+    ADD PRIMARY KEY (`id_inspeccion_general`),
+  ADD KEY `fk_inspeccion_general_paciente` (`paciente_id`);
+ALTER TABLE `inspeccion_general`
+    MODIFY `id_inspeccion_general` int(255) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `inspeccion_general`
+    ADD CONSTRAINT `fk_inspeccion_general_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
 
--- --------------------------------------------------------
 
---
--- Estructura de tabla para la tabla `paciente`
---
 
 CREATE TABLE `paciente` (
                             `id_paciente` int(255) NOT NULL,
@@ -201,15 +265,15 @@ CREATE TABLE `paciente` (
                             `otro_acudio` varchar(50) DEFAULT NULL,
                             `status_paciente` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+--
+ALTER TABLE `paciente`
+    ADD PRIMARY KEY (`id_paciente`),
+  ADD KEY `fk_paciente_usuario` (`usuario_id`);
+ALTER TABLE `paciente`
+    MODIFY `id_paciente` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+ALTER TABLE `paciente`
+    ADD CONSTRAINT `fk_paciente_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`);
 
---
--- Volcado de datos para la tabla `paciente`
---
-
-
---
--- Estructura de tabla para la tabla `preguntas_consumo`
---
 
 CREATE TABLE `preguntas_consumo` (
                                      `id_preguntas_consumo` int(255) NOT NULL,
@@ -227,12 +291,15 @@ CREATE TABLE `preguntas_consumo` (
                                      `lesion` varchar(30) DEFAULT NULL,
                                      `descripcion_salud` text DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ALTER TABLE `preguntas_consumo`
+    ADD PRIMARY KEY (`id_preguntas_consumo`),
+  ADD KEY `fk_preguntas_consumo_paciente` (`paciente_id`);
+ALTER TABLE `preguntas_consumo`
+    MODIFY `id_preguntas_consumo` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
+ALTER TABLE `preguntas_consumo`
+    ADD CONSTRAINT `fk_preguntas_consumo_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
+COMMIT;
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `usuario`
---
 
 CREATE TABLE `usuario` (
                            `id_usuario` int(255) NOT NULL,
@@ -246,277 +313,7 @@ CREATE TABLE `usuario` (
                            `fecha_baja_us` datetime DEFAULT NULL,
                            `status_us` smallint(1) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Indices de la tabla `antecedentes_familiares`
---
-ALTER TABLE `antecedentes_familiares`
-    ADD PRIMARY KEY (`id_antecedentes_familiares`),
-  ADD KEY `fk_antecedentes_familiares_paciente` (`paciente_id`),
-  ADD KEY `fk_antecedentes_familiares_familiar_paciente` (`enfermedad_familiar_id`);
-
---
--- Indices de la tabla `antecedentes_no_patologicos`
---
-ALTER TABLE `antecedentes_no_patologicos`
-    ADD PRIMARY KEY (`id_antecedentes_no_pat`),
-  ADD KEY `fk_antecedentes_no_patologicos_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `antecedentes_patologicos`
---
-ALTER TABLE `antecedentes_patologicos`
-    ADD PRIMARY KEY (`id_antecedentes_patologicos`),
-  ADD KEY `fk_antecedentes_patologicos_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `consumo_sustancias`
---
-ALTER TABLE `consumo_sustancias`
-    ADD PRIMARY KEY (`id_consumo_sustancias`),
-  ADD KEY `fk_consumo_sustancias_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `domicilio`
---
-ALTER TABLE `domicilio`
-    ADD PRIMARY KEY (`id_domicilio`),
-  ADD KEY `fk_domicilio_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `egreso`
---
-ALTER TABLE `egreso`
-    ADD PRIMARY KEY (`id_egreso`),
-  ADD KEY `fk_egreso_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `egreso_autorizacion`
---
-ALTER TABLE `egreso_autorizacion`
-    ADD PRIMARY KEY (`id_egreso_autorizacion`),
-  ADD KEY `fk_egreso_autorizacion_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `enfermedad_familiar`
---
-ALTER TABLE `enfermedad_familiar`
-    ADD PRIMARY KEY (`id_enfermedad_familiar`);
-
---
--- Indices de la tabla `entrevista`
---
-ALTER TABLE `entrevista`
-    ADD PRIMARY KEY (`id_entrevista`),
-  ADD KEY `fk_entrevista_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `evolucion_paciente`
---
-ALTER TABLE `evolucion_paciente`
-    ADD PRIMARY KEY (`id_evolucion_paciente`),
-  ADD KEY `fk_evolucion_paciente_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `familiar_paciente`
---
-ALTER TABLE `familiar_paciente`
-    ADD PRIMARY KEY (`id_enfermedad_paciente`);
-
---
--- Indices de la tabla `inspeccion_general`
---
-ALTER TABLE `inspeccion_general`
-    ADD PRIMARY KEY (`id_inspeccion_general`),
-  ADD KEY `fk_inspeccion_general_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `paciente`
---
-ALTER TABLE `paciente`
-    ADD PRIMARY KEY (`id_paciente`),
-  ADD KEY `fk_paciente_usuario` (`usuario_id`);
-
---
--- Indices de la tabla `preguntas_consumo`
---
-ALTER TABLE `preguntas_consumo`
-    ADD PRIMARY KEY (`id_preguntas_consumo`),
-  ADD KEY `fk_preguntas_consumo_paciente` (`paciente_id`);
-
---
--- Indices de la tabla `usuario`
---
 ALTER TABLE `usuario`
     ADD PRIMARY KEY (`id_usuario`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `antecedentes_no_patologicos`
---
-ALTER TABLE `antecedentes_no_patologicos`
-    MODIFY `id_antecedentes_no_pat` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `antecedentes_patologicos`
---
-ALTER TABLE `antecedentes_patologicos`
-    MODIFY `id_antecedentes_patologicos` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `consumo_sustancias`
---
-ALTER TABLE `consumo_sustancias`
-    MODIFY `id_consumo_sustancias` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=149;
-
---
--- AUTO_INCREMENT de la tabla `domicilio`
---
-ALTER TABLE `domicilio`
-    MODIFY `id_domicilio` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `egreso`
---
-ALTER TABLE `egreso`
-    MODIFY `id_egreso` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `egreso_autorizacion`
---
-ALTER TABLE `egreso_autorizacion`
-    MODIFY `id_egreso_autorizacion` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `enfermedad_familiar`
---
-ALTER TABLE `enfermedad_familiar`
-    MODIFY `id_enfermedad_familiar` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de la tabla `entrevista`
---
-ALTER TABLE `entrevista`
-    MODIFY `id_entrevista` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `evolucion_paciente`
---
-ALTER TABLE `evolucion_paciente`
-    MODIFY `id_evolucion_paciente` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `familiar_paciente`
---
-ALTER TABLE `familiar_paciente`
-    MODIFY `id_enfermedad_paciente` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla `inspeccion_general`
---
-ALTER TABLE `inspeccion_general`
-    MODIFY `id_inspeccion_general` int(255) NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de la tabla `paciente`
---
-ALTER TABLE `paciente`
-    MODIFY `id_paciente` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
-
---
--- AUTO_INCREMENT de la tabla `preguntas_consumo`
---
-ALTER TABLE `preguntas_consumo`
-    MODIFY `id_preguntas_consumo` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
-
---
--- AUTO_INCREMENT de la tabla `usuario`
---
 ALTER TABLE `usuario`
     MODIFY `id_usuario` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `antecedentes_familiares`
---
-ALTER TABLE `antecedentes_familiares`
-    ADD CONSTRAINT `fk_antecedentes_familiares_enfermedad_familiar` FOREIGN KEY (`enfermedad_familiar_id`) REFERENCES `enfermedad_familiar` (`id_enfermedad_familiar`),
-  ADD CONSTRAINT `fk_antecedentes_familiares_familiar_paciente` FOREIGN KEY (`enfermedad_familiar_id`) REFERENCES `familiar_paciente` (`id_enfermedad_paciente`),
-  ADD CONSTRAINT `fk_antecedentes_familiares_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `antecedentes_no_patologicos`
---
-ALTER TABLE `antecedentes_no_patologicos`
-    ADD CONSTRAINT `fk_antecedentes_no_patologicos_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `antecedentes_patologicos`
---
-ALTER TABLE `antecedentes_patologicos`
-    ADD CONSTRAINT `fk_antecedentes_patologicos_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `consumo_sustancias`
---
-ALTER TABLE `consumo_sustancias`
-    ADD CONSTRAINT `fk_consumo_sustancias_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `domicilio`
---
-ALTER TABLE `domicilio`
-    ADD CONSTRAINT `fk_domicilio_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `egreso`
---
-ALTER TABLE `egreso`
-    ADD CONSTRAINT `fk_egreso_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `egreso_autorizacion`
---
-ALTER TABLE `egreso_autorizacion`
-    ADD CONSTRAINT `fk_egreso_autorizacion_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `entrevista`
---
-ALTER TABLE `entrevista`
-    ADD CONSTRAINT `fk_entrevista_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `evolucion_paciente`
---
-ALTER TABLE `evolucion_paciente`
-    ADD CONSTRAINT `fk_evolucion_paciente_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `inspeccion_general`
---
-ALTER TABLE `inspeccion_general`
-    ADD CONSTRAINT `fk_inspeccion_general_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-
---
--- Filtros para la tabla `paciente`
---
-ALTER TABLE `paciente`
-    ADD CONSTRAINT `fk_paciente_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id_usuario`);
-
---
--- Filtros para la tabla `preguntas_consumo`
---
-ALTER TABLE `preguntas_consumo`
-    ADD CONSTRAINT `fk_preguntas_consumo_paciente` FOREIGN KEY (`paciente_id`) REFERENCES `paciente` (`id_paciente`);
-COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

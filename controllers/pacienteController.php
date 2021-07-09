@@ -14,22 +14,23 @@ class pacienteController
             $paciente->setId($id);
             $data = $paciente->getOne();
 
-            /*
             $entrevista = new Entrevista();
             $entrevista->setPacienteId($id);
-            $info = $entrevista->getOne();
-               */
+            $ent = $entrevista->getOne();
+
             $domicilio = new Domicilio();
             $domicilio->setPacienteId($id);
             $dom = $domicilio->getOne();
 
-            /*
+            //consumo sustancias
             $sustancia = new Consumo();
-            $sustancia->setIdConsumoSust($id);
-            $sust = $sustancia->getOne();
-            */
-
-
+            $sustancia->setIdConsumoSustancias($id);
+            $res = $sustancia->getOne();
+            if ($res) {
+                $sust = true;
+            } else {
+                $sust = false;
+            }
             require_once 'layout/header.php';
             require_once 'layout/sidebar.php';
             require_once 'views/paciente/expediente.php';

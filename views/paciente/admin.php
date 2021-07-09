@@ -29,15 +29,15 @@
             <tbody class="click">
             <?php while ($pac = $data->fetch_object()) : ?>
                 <tr>
-                    <td class="col-3"><?= $pac->id_paciente ?></td>
-                    <td class="col-3"><?= $pac->nombre_pa ?></td>
-                    <td class="col-3"><?= $pac->apellido_paterno ?></td>
-                    <td class="col-3"><?= $pac->apellido_materno ?></td>
-                    <td class="col-3"><?= $pac->status_paciente ?></td>
-                    <td class="col-1"><a type="button"
+                    <td><?= $pac->id_paciente ?></td>
+                    <td><?= $pac->nombre_pa ?></td>
+                    <td><?= $pac->apellido_paterno ?></td>
+                    <td><?= $pac->apellido_materno ?></td>
+                    <td><?= $pac->status_paciente ?></td>
+                    <td style="width: 10%; text-align: center"><a type="button"
                                          href="<?= base_url ?>paciente/expediente&id=<?= $pac->id_paciente ?>"
-                                         class="btn btn-cns btn-flat">
-                            <i class="fas fa-folder"></i>
+                                         class="btn color-manila btn-flat">
+                            <i class="fas fa-folder" style="color: #563d7c; "></i>
                         </a></td>
                 </tr>
             <?php endwhile; ?>

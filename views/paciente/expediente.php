@@ -69,8 +69,8 @@
                                                 <!-- small box -->
                                                 <div class="small-box bg color-manila">
                                                     <div class="inner">
-                                                        <?php if (isset($info) && is_object($info)): ?>
-                                                            <i class="fas fa-check"></i>
+                                                        <?php if (isset($ent) && is_object($ent)): ?>
+                                                            <i class="fas fa-check"></i> Generado
                                                         <?php else : ?>
                                                             <i class="fas fa-plus"></i>
                                                         <?php endif; ?>
@@ -109,10 +109,10 @@
                                                 <!-- small box -->
                                                 <div class="small-box bg color-manila">
                                                     <div class="inner">
-                                                        <?php if (isset($sust) && is_object($sust)): ?>
-                                                            <i class="fas fa-check"></i>
+                                                        <?php if (isset($sust) && $sust): ?>
+                                                            <i class="fas fa-check"></i> Generado
                                                         <?php else : ?>
-                                                            <i class="fas fa-plus"></i>
+                                                            <i class="fas fa-plus"></i> Generar
                                                         <?php endif; ?>
 
                                                         <p>sustancias</p>
@@ -139,14 +139,18 @@
                                                 <!-- small box -->
                                                 <div class="small-box bg color-manila">
                                                     <div class="inner">
-                                                        <h3>150</h3>
+                                                        <?php if (isset($ficha) && $ficha): ?>
+                                                            <i class="fas fa-check"></i> Generado
+                                                        <?php else : ?>
+                                                            <i class="fas fa-plus"></i> Generar
+                                                        <?php endif; ?>
 
-                                                        <p>Entrevista</p>
+                                                        <p>Ficha clinica</p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fas fa-folder"></i>
                                                     </div>
-                                                    <a href="<?= base_url ?>paciente/entrevista"
+                                                    <a href="<?= base_url ?>fichaClinica/registro"
                                                        class="small-box-footer"> <i
                                                                 class="fas fa-arrow-circle-right"></i></a>
                                                 </div>

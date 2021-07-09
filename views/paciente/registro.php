@@ -9,7 +9,6 @@
 $paciente_id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : false;
 ?>
 
-
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -54,7 +53,7 @@ $paciente_id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT)
                 </a>
             </div>
         </div>
-    </div>s
+    </div>
 </div>
 
 <section id="w-ingreso">

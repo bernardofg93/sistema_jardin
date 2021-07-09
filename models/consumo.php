@@ -2,7 +2,7 @@
 
 class Consumo
 {
-    private $id_consumo_sust;
+    private $id_consumo_sustancias;
     private $usuario_id;
     private $paciente_id;
     private $sustancia;
@@ -18,14 +18,14 @@ class Consumo
         $this->db = Database::connect();
     }
 
-    public function getIdConsumoSust()
+    public function getIdConsumoSustancias()
     {
-        return $this->id_consumo_sust;
+        return $this->id_consumo_sustancias;
     }
 
-    public function setIdConsumoSust($id_consumo_sust)
+    public function setIdConsumoSustancias($id_consumo_sustancias)
     {
-        $this->id_consumo_sust = $id_consumo_sust;
+        $this->id_consumo_sustancias = $id_consumo_sustancias;
     }
 
     public function getUsuarioId()
@@ -119,18 +119,35 @@ class Consumo
         $this->droga_impacto = $droga_impacto;
     }
 
-    public function getAll()
+    public function getOne()
     {
         $sql = "SELECT
                 *
                 FROM consumo_sustancias c  
                 INNER JOIN paciente p 
                 ON c.paciente_id = p.id_paciente     
-                WHERE p.id_paciente = {$this->getPacienteId()}";
-        return $result = $this->db->query($sql);
+                WHERE c.id_consumo_sustancias = {$this->getIdConsumoSustancias()}";
+
+        $res = $this->db->query($sql);
+        $data = $res->fetch_object();
+
+        $query = false;
+        if($data) {
+            return [
+                'idConsumo' =>  $data->id_consumo_sustancias,
+                'sustancia' => $data->sustancia,
+                'frecuencia' => $data->frecuencia_uso,
+                'via' => $data->via_admin,
+                'edadUso' => $data->edad_uso,
+                'actualmente' => $data->actualmente,
+                'edadSin' => $data->edad_sin_uso
+            ];
+        }else {
+            return $query;
+        }
     }
 
-    public function getOne()
+    public function getAll()
     {
         $sql = "SELECT * FROM consumo_sustancias       
                 WHERE paciente_id = {$this->getPacienteId()}";
@@ -157,7 +174,7 @@ class Consumo
             . "'$id_pac','$sust','$frec','$via',"
             . "'$edad_de','$actual','$edad_sin');";
 
-        $result = $this->db->query($sql);;
+        $result = $this->db->query($sql);
 
         if ($result) {
             return array(
@@ -169,7 +186,6 @@ class Consumo
                 'edadUso' => $edad_de,
                 'actual' => $actual,
                 'edadSin' => $edad_sin,
-                'droga' => $droga,
                 'consumo_id' => $this->db->insert_id
             );
         } else {
@@ -185,16 +201,15 @@ class Consumo
         $edad_de = $this->edad_uso;
         $actual = $this->actualmente;
         $edad_sin = $this->edad_sin_uso;
-        $droga = $this->droga_impacto;
         $sql = "UPDATE consumo_sustancias 
                 SET 
                 sustancia='$sust',frecuencia_uso='$frec',
                 via_admin='$via',edad_uso='$edad_de',
-                actualmente='$actual',edad_sin_uso='$edad_sin',
-                droga_impacto='$droga'
-                WHERE id_consumo_sust={$this->getIdConsumoSust()}";
+                actualmente='$actual',edad_sin_uso='$edad_sin'
+                WHERE id_consumo_sustancias={$this->getIdConsumoSustancias()}";
 
         $result = $this->db->query($sql);
+
         if ($result) {
             return array(
                 'result' => 'true',
@@ -204,8 +219,16 @@ class Consumo
                 'edadUso' => $edad_de,
                 'actual' => $actual,
                 'edadSin' => $edad_sin,
-                'droga' => $droga
             );
+        }
+    }
+
+    public function delete()
+    {
+        $sql = "DELETE FROM consumo_sustancias WHERE id_consumo_sustancias = {$this->getIdConsumoSustancias()}";
+        $query = $this->db->query($sql);
+        if ($query) {
+            return ['res' => 'true'];
         }
     }
 }

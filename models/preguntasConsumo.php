@@ -17,7 +17,8 @@ class PreguntasConsumo
     private $lesion;
     private $descripcion_salud;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = Database::connect();
     }
 
@@ -161,7 +162,26 @@ class PreguntasConsumo
         $this->descripcion_salud = $descripcion_salud;
     }
 
-    public function save(){
+    public function getOne()
+    {
+        $sql = "SELECT
+                *
+                FROM preguntas_consumo pc  
+                INNER JOIN paciente p 
+                ON pc.paciente_id = p.id_paciente     
+                WHERE pc.paciente_id = {$this->getId()}";
+        $result = $this->db->query($sql);
+        return $result->fetch_object();
+    }
+
+    public function getAll()
+    {
+        $registros = $this->db->query("SELECT * FROM preguntas_consumo ORDER BY id_preguntas_consumo DESC");
+        return $registros;
+    }
+
+    public function save()
+    {
         $id_pac = $this->paciente_id;
         $int = $this->intravenosa;
         $droga = $this->droga_impacto;
@@ -177,17 +197,66 @@ class PreguntasConsumo
         $desc = $this->descripcion_salud;
 
         $sql = "INSERT INTO preguntas_consumo VALUES(NULL,"
-                ."'$id_pac','$int','$droga','$num_trat',"
-                ."'$vih','$sida','$tuberculosis', '$hep',"
-                ."'$otras','$cert','$enf','$lesion','$desc');";
+            . "'$id_pac','$int','$droga','$num_trat',"
+            . "'$vih','$sida','$tuberculosis', '$hep',"
+            . "'$otras','$cert','$enf','$lesion','$desc');";
 
-        $result = $this->db->query($sql);;
+        $result = $this->db->query($sql);
         if ($result) {
             return [
                 'result' => 'true'
             ];
-        }else {
+        } else {
             return ['result' => 'false'];
         }
+    }
+
+    public function edit()
+    {
+        $int = $this->intravenosa;
+        $droga = $this->droga_impacto;
+        $num_trat = $this->num_trat;
+        $vih = $this->vih;
+        $sida = $this->sida;
+        $tuberculosis = $this->pr_tuberculosis;
+        $hep = $this->hepatitis;
+        $otras = $this->otras;
+        $cert = $this->certificado;
+        $enf = $this->alguna_enf;
+        $lesion = $this->lesion;
+        $desc = $this->descripcion_salud;
+
+        $sql = "UPDATE preguntas_consumo 
+                SET 
+                intravenosa='$int',droga_impacto='$droga',num_trat='$num_trat',
+                vih='$vih',sida='$sida',pr_tuberculosis='$tuberculosis',hepatitis='$hep',
+                certificado='$cert',descripcion_salud='$desc'";
+
+        if ($this->getAlgunaEnf() != null) {
+            $sql .= ", alguna_enf='$enf'";
+        }
+        if ($this->getLesion() != null) {
+            $sql .= ", lesion='$lesion'";
+        }
+        if ($this->getOtras() != null) {
+            $sql .= ", otras='$otras'";
+        }
+
+        $sql .= "WHERE id_preguntas_consumo={$this->getId()}";
+
+        $result = $this->db->query($sql);
+        if ($result) {
+            return array(
+                'result' => 'true'
+            );
+        } else {
+            return ['result' => 'false'];
+        }
+    }
+
+    public function delete()
+    {
+        $sql = "DELETE FROM preguntas_consumo WHERE id_preguntas_consumo = {$this->getId()}";
+        $this->db->query($sql);
     }
 }

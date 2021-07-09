@@ -35,8 +35,6 @@ function readForm(e) {
     data.append("action", action);
     data.append("paciente_id", paciente_id);
 
-    console.log(...data);
-
     if (action == "create") {
         insertData(data);
     } else {

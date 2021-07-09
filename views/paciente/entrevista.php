@@ -22,7 +22,7 @@
     <!-- /.card-header -->
     <div class="card-body" id="container-buttons">
         <button type="submit" form="entrevistaInicial" class="btn btn-cns btn-flat">
-            <i class="far fa-save"></i>
+           Guardar <i class="far fa-save"></i>
         </button>
         <a type="button" id="btnCreate" class="btn btn-cns btn-flat" data-toggle="modal" data-target="#modalCategory">
             <i class="far fa-list-alt"></i>

@@ -11,8 +11,14 @@ class consumoController
             $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : false;
             $consumo = new Consumo();
             $consumo->setPacienteId($id);
-            $arrCons = $consumo->getOne();
+            $arrCons = $consumo->getAll();
             $arr = json_decode(json_encode($arrCons), true);
+            count($arrCons) ? $bol = true : false;
+            //preguntas consumo
+            $pregunta = new PreguntasConsumo();
+            $pregunta->setId($id);
+            $data = $pregunta->getOne();
+
             require_once 'layout/header.php';
             require_once 'layout/sidebar.php';
             require_once 'views/paciente/consumo_sustancias.php';
@@ -39,38 +45,60 @@ class consumoController
         if ($_POST['id']) {
             $id = $_POST['id'];
             $getAll = new Consumo();
-            $getAll->setIdConsumoSust($id);
+            $getAll->setIdConsumoSustancias($id);
             $data = $getAll->getOne();
-            $id = $data->id_consumo_sust;
-            $sustancia = $data->sustancia;
-            $frecuencia = $data->frecuencia_uso;
-            $via = $data->via_admin;
-            $edadUso = $data->edad_uso;
-            $actualmente = $data->actualmente;
-            $edadSin = $data->edad_sin_uso;
-            $droga = $data->droga_impacto;
-            $datos = array(
-                'id' => $id,
-                'sustancia' => $sustancia,
-                'frecuencia' => $frecuencia,
-                'via' => $via,
-                'edadUso' => $edadUso,
-                'actualmente' => $actualmente,
-                'edadSin' => $edadSin,
-                'droga' => $droga
-            );
         }
-        echo json_encode($datos);
+        echo json_encode($data);
     }
 
     public function save()
     {
         if (isset($_POST)) {
-            $idPaciente = isset($_POST['pacienteId']) ? filter_var($_POST['pacienteId'], FILTER_VALIDATE_INT) : false;
+            $sustancia = isset($_POST['sustancia']) ? filter_var($_POST['sustancia'], FILTER_SANITIZE_STRING) : false;
+            $frecuencia = isset($_POST['frecuencia']) ? filter_var($_POST['frecuencia'], FILTER_SANITIZE_STRING) : false;
+            $via = isset($_POST['via']) ? filter_var($_POST['via'], FILTER_SANITIZE_STRING) : false;
+            $edad_uso = isset($_POST['edad_uso']) ? filter_var($_POST['edad_uso'], FILTER_VALIDATE_INT) : false;
+            $actualmente = isset($_POST['actualmente']) ? filter_var($_POST['actualmente'], FILTER_SANITIZE_STRING) : false;
+            $dejo_uso = isset($_POST['dejo_uso']) ? filter_var($_POST['dejo_uso'], FILTER_SANITIZE_STRING) : false;
+
             $consumo = new Consumo();
+            $consumo->setSustancia($sustancia);
+            $consumo->setFrecuenciaUso($frecuencia);
+            $consumo->setViaAdmin($via);
+            $consumo->setEdadUso($edad_uso);
+            $consumo->setActualmente($actualmente);
+            $consumo->setEdadSinUso($dejo_uso);
+
+            if ($_POST['action'] == 'create') {
+                $idPaciente = isset($_POST['pacienteId']) ? filter_var($_POST['pacienteId'], FILTER_VALIDATE_INT) : false;
+                $consumo->setPacienteId($idPaciente);
+                $response = $consumo->save();
+            } else {
+                $sustanciaId = isset($_POST['consumoId']) ? filter_var($_POST['consumoId'], FILTER_VALIDATE_INT) : false;
+                $consumo->setIdConsumoSustancias($sustanciaId);
+                $response = $consumo->edit();
+            }
+        }
+        echo json_encode($response);
+    }
+
+    public function delete()
+    {
+        if (isset($_GET['id'])) {
+            $id = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+            $consumo = new Consumo();
+            $consumo->setIdConsumoSustancias($id);
+            $data = $consumo->delete();
+        }
+        echo json_encode($data);
+    }
+
+    public function savePreguntas()
+    {
+        if (isset($_POST)) {
             $pregunta = new PreguntasConsumo();
             $pregunta->setCertificado($_POST['radCert']);
-            $pregunta->setAlgunaEnf(filter_var($_POST['enfRad'], FILTER_SANITIZE_STRING));;
+            $pregunta->setAlgunaEnf(filter_var($_POST['enfRad'], FILTER_SANITIZE_STRING));
             $pregunta->setLesion(filter_var($_POST['radLes'], FILTER_SANITIZE_STRING));
             $pregunta->setIntravenosa($_POST['radIntra']);
             $pregunta->setVih($_POST['radVih']);
@@ -80,33 +108,17 @@ class consumoController
             $pregunta->setOtras(filter_var($_POST['radOtra'], FILTER_SANITIZE_STRING));
             $pregunta->setDescripcionSalud($_POST['estadoIngreso']);
             $pregunta->setNumTrat(filter_var($_POST['tratamientos'], FILTER_SANITIZE_STRING));
-            $pregunta->setPacienteId($idPaciente);
 
             if ($_POST['action'] == 'create') {
+                $idPaciente = isset($_POST['pacienteId']) ? filter_var($_POST['pacienteId'], FILTER_VALIDATE_INT) : false;
+                $pregunta->setPacienteId($idPaciente);
                 $res = $pregunta->save();
-                $json = [];
-                if (isset($_POST['arrData'])) {
-                    $arr = json_decode($_POST['arrData'], true);
-                    foreach ($arr as $row) {
-                        $consumo->setSustancia(filter_var($row['sustancia'], FILTER_SANITIZE_STRING));
-                        $consumo->setFrecuenciaUso(filter_var($row['frecuencia'], FILTER_SANITIZE_STRING));
-                        $consumo->setViaAdmin(filter_var($row['via'], FILTER_SANITIZE_STRING));
-                        $consumo->setEdadUso(filter_var($row['edad'], FILTER_VALIDATE_INT));
-                        $consumo->setActualmente(filter_var($row['actualmente'], FILTER_SANITIZE_STRING));
-                        $consumo->setEdadSinUso(filter_var($row['dejo_uso'], FILTER_SANITIZE_STRING));
-                        $consumo->setPacienteId($idPaciente);
-                        $save = $consumo->save();
-                    }
-                    array_push($json, $save);
-                }
             } else {
-                $id = $_POST['consumo_id'];
-                $consumo->setIdConsumoSust($id);
-                $save = $consumo->edit();
+                $idPreg = isset($_POST['pregId']) ? filter_var($_POST['pregId'], FILTER_VALIDATE_INT) : false;
+                $pregunta->setId($idPreg);
+                $res = $pregunta->edit();
             }
         }
-
-        array_push($json, $res);
-        echo json_encode($json);
+        echo json_encode($res);
     }
 }
