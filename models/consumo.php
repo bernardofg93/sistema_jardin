@@ -132,9 +132,9 @@ class Consumo
         $data = $res->fetch_object();
 
         $query = false;
-        if($data) {
+        if ($data) {
             return [
-                'idConsumo' =>  $data->id_consumo_sustancias,
+                'idConsumo' => $data->id_consumo_sustancias,
                 'sustancia' => $data->sustancia,
                 'frecuencia' => $data->frecuencia_uso,
                 'via' => $data->via_admin,
@@ -142,7 +142,7 @@ class Consumo
                 'actualmente' => $data->actualmente,
                 'edadSin' => $data->edad_sin_uso
             ];
-        }else {
+        } else {
             return $query;
         }
     }

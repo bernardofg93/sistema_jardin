@@ -265,17 +265,6 @@ class Paciente
         }
     }
 
-    public function code()
-    {
-        $code = "SELECT MAX(id_paciente) AS id FROM paciente";
-        $paciente_id = $this->db->query($code);
-        $id = $paciente_id->fetch_object()->id;
-        $no_expediente = $this->fecha_nac . 'pac' . $id;
-
-        $cod = "UPDATE paciente SET no_expediente = '$no_expediente' WHERE id_paciente = $id";
-        $this->db->query($cod);
-    }
-
     public function edit()
     {
         $pac_nom = $this->nombre_pa;

@@ -3,6 +3,7 @@ require_once 'models/paciente.php';
 require_once 'models/entrevista.php';
 require_once 'models/domicilio.php';
 require_once 'models/consumo.php';
+require_once 'models/Expediente.php';
 
 class pacienteController
 {
@@ -10,6 +11,12 @@ class pacienteController
     {
         if ($_GET['id']) {
             $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : false;
+
+            //expediente
+            $expediente = new Expediente();
+            $expediente->setId($id);
+            $exp = $expediente->getAll();
+
             $paciente = new Paciente();
             $paciente->setId($id);
             $data = $paciente->getOne();
@@ -31,6 +38,8 @@ class pacienteController
             } else {
                 $sust = false;
             }
+
+
             require_once 'layout/header.php';
             require_once 'layout/sidebar.php';
             require_once 'views/paciente/expediente.php';
@@ -48,8 +57,8 @@ class pacienteController
 
     public function registro()
     {
-        if (isset($_GET['id'])) {
-            $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : false;
+        if (isset($_GET['idExp']) && isset($_GET['idPac'])) {
+            $id = isset($_GET['idPac']) ? filter_var($_GET['idPac'], FILTER_SANITIZE_NUMBER_INT) : false;
             $paciente = new Paciente();
             $paciente->setId($id);
             $data = $paciente->getOne();
@@ -104,7 +113,16 @@ class pacienteController
                     $paciente->setId($user_id);
                     $save = $paciente->save();
                     $paciente_id = $save['paciente_id'];
-                    //$paciente->code();
+                    if($save) {
+                        $expediente = new Expediente();
+                        $expediente->setPacienteId($paciente_id);
+                        $res = $expediente->save();
+                        $expediente_id = $res['expediente_id'];
+                        if($res){
+                            $expediente->code($paciente_id, $expediente_id);
+                        }
+
+                    }
                 }
 
             } else {

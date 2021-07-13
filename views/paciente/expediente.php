@@ -1,3 +1,9 @@
+<?php
+    if(isset($_GET['id'])) {
+        $idP = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+    }
+?>
+
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -29,7 +35,16 @@
                             <?= isset($data) && is_object($data) && $data->nombre_pa ? $data->nombre_pa : '' ?>
                         </h3>
                     </div>
-                    <!-- /.card-body -->
+                    <div class="card-body">
+                        <label>Expediente:</label>
+                        <select class="form-control form-control-sm" id="expedienteId">
+                            <option value="">Selecciona</option>
+                            <?php while ($idExp = $exp->fetch_object()) : ?>
+                                <option value="<?= $idExp->id_expediente ?>"><?= $idExp->no_expediente ?>
+                                    | <?= $idExp->fecha_alta_exp ?></option>
+                            <?php endwhile; ?>
+                        </select>
+                    </div>
                 </div>
                 <!-- /.card -->
             </div>
@@ -60,7 +75,7 @@
                                                         <i class="fas fa-folder"></i>
                                                     </div>
                                                     <a href="<?= base_url ?>paciente/registro&id=<?= $id ?>"
-                                                       class="small-box-footer"> <i
+                                                       class="small-box-footer" id="test"> <i
                                                                 class="fas fa-arrow-circle-right"></i></a>
                                                 </div>
                                             </div>
@@ -155,63 +170,14 @@
                                                                 class="fas fa-arrow-circle-right"></i></a>
                                                 </div>
                                             </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <h3>53<sup style="font-size: 20px">%</sup></h3>
-
-                                                        <p>Bounce Rate</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="#" class="small-box-footer">More info <i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <h3>44</h3>
-
-                                                        <p>User Registrations</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="#" class="small-box-footer">More info <i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <h3>65</h3>
-
-                                                        <p>Unique Visitors</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="#" class="small-box-footer">More info <i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
-                                            <!-- ./col -->
                                         </div>
                                 </section>
                                 <!-- /.row -->
-
                                 <!-- /.post -->
                             </div>
 </section>
 <!-- /.content -->
-
+<input type="hidden" id="idP" value="<?=$idP?>">
 <!-- /.content-wrapper -->
 <?php include "layout/footer.php" ?>
+<script src="<?=base_url?>assets/js/paciente/expediente.js"></script>

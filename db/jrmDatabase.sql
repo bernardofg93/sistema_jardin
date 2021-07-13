@@ -4,16 +4,17 @@ use db_soft_jrm;
 
 
 CREATE TABLE `antecedentes_familiares` (
-                                           `id_antecedentes_familiares` int(255) AUTO_INCREMENT NOT NULL ,
-                                           `paciente_id` int(255) NOT NULL,
-                                           `enfermedad_familiar_id` int(255) NOT NULL,
-                                           `familiar_paciente_id` int(255) NOT NULL
-CONSTRAINT pk_antecedentes_familiares PRIMARY KEY(id_antecedentes_familiares)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+`id_antecedentes_familiares` int(255) AUTO_INCREMENT NOT NULL ,
+`paciente_id` int(255) NOT NULL,
+`enfermedad_familiar_id` int(255) NOT NULL,
+`familiar_paciente_id` int(255) NOT NULL
+CONSTRAINT pk_antecedentes_familiares PRIMARY KEY(id_antecedentes_familiares),
+CONSTRAINT fk_antecedentes_familiares_paciente FOREIGN KEY (`paciente_id`) REFERENCES paciente,
+CONSTRAINT fk_antecedentes_familiares_familiar_paciente FOREIGN KEY (`enfermedad_familiar_id`) REFERENCES enfermedad_familiar,
+CONSTRAINT fk_antecedentes_familiares_familiar_paciente FOREIGN KEY (`enfermedad_familiar_id`) REFERENCES enfermedad_familiar,
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-ALTER TABLE `antecedentes_familiares`
-    ADD PRIMARY KEY (`id_antecedentes_familiares`),
-  ADD KEY `fk_antecedentes_familiares_paciente` (`paciente_id`),
+
   ADD KEY `fk_antecedentes_familiares_familiar_paciente` (`enfermedad_familiar_id`);
 ALTER TABLE `antecedentes_familiares`
     ADD CONSTRAINT `fk_antecedentes_familiares_enfermedad_familiar` FOREIGN KEY (`enfermedad_familiar_id`) REFERENCES `enfermedad_familiar` (`id_enfermedad_familiar`),
@@ -95,18 +96,18 @@ ALTER TABLE `consumo_sustancias`
 
 
 CREATE TABLE `domicilio` (
-                             `id_domicilio` int(255) NOT NULL,
-                             `paciente_id` int(255) NOT NULL,
-                             `usuario_id` int(11) DEFAULT NULL,
-                             `calle` varchar(50) DEFAULT NULL,
-                             `numero` varchar(20) DEFAULT NULL,
-                             `colonia` varchar(20) DEFAULT NULL,
-                             `municipio` varchar(20) DEFAULT NULL,
-                             `telefono` varchar(20) DEFAULT NULL,
-                             `nombre_familiar` varchar(30) DEFAULT NULL,
-                             `telefono_fam` varchar(30) DEFAULT NULL,
-                             `tipo_parentes` varchar(20) DEFAULT NULL,
-                             `domicilio_fam` varchar(50) DEFAULT NULL
+  `id_domicilio` int(255) NOT NULL,
+ `paciente_id` int(255) NOT NULL,
+ `usuario_id` int(11) DEFAULT NULL,
+ `calle` varchar(50) DEFAULT NULL,
+ `numero` varchar(20) DEFAULT NULL,
+ `colonia` varchar(20) DEFAULT NULL,
+ `municipio` varchar(20) DEFAULT NULL,
+ `telefono` varchar(20) DEFAULT NULL,
+ `nombre_familiar` varchar(30) DEFAULT NULL,
+ `telefono_fam` varchar(30) DEFAULT NULL,
+ `tipo_parentes` varchar(20) DEFAULT NULL,
+ `domicilio_fam` varchar(50) DEFAULT NULL>
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ALTER TABLE `domicilio`
     ADD PRIMARY KEY (`id_domicilio`),
