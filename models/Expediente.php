@@ -31,14 +31,15 @@ class Expediente
         $this->paciente_id = $paciente_id;
     }
 
-    public function getAll(){
+    public function getAll()
+    {
         $sql = "SELECT * FROM expediente WHERE paciente_id = {$this->getId()}";
         return $data = $this->db->query($sql);
     }
 
     public function code($paciente_id, $expediente_id)
     {
-       $no_expediente = 'exp'. $paciente_id . $expediente_id;
+        $no_expediente = 'exp' . $paciente_id . $expediente_id;
 
         $cod = "UPDATE expediente 
                 SET no_expediente = '$no_expediente' 
@@ -54,5 +55,5 @@ class Expediente
         $save = $this->db->query($sql);
         return ['res' => 'true', 'expediente_id' => $this->db->insert_id];
     }
-
 }
+

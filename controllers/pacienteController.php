@@ -7,9 +7,24 @@ require_once 'models/Expediente.php';
 
 class pacienteController
 {
+
+    public function dataExpediente(){
+        if(isset($_GET['idExp']) && isset($_GET['idPac'])){
+            $idExp = filter_var($_GET['idExp'], FILTER_VALIDATE_INT);
+            $idPac = filter_var($_GET['idPac'], FILTER_VALIDATE_INT);
+
+            $paciente = new Paciente();
+            $paciente->setId($idPac);
+            $paciente->setExpedienteId($idExp);
+            $data =  $paciente->getValidateDataExp();
+        }
+        echo json_encode($data);
+    }
+
     public function expediente()
     {
         if ($_GET['id']) {
+
             $id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_SANITIZE_NUMBER_INT) : false;
 
             //expediente
@@ -21,14 +36,6 @@ class pacienteController
             $paciente->setId($id);
             $data = $paciente->getOne();
 
-            $entrevista = new Entrevista();
-            $entrevista->setPacienteId($id);
-            $ent = $entrevista->getOne();
-
-            $domicilio = new Domicilio();
-            $domicilio->setPacienteId($id);
-            $dom = $domicilio->getOne();
-
             //consumo sustancias
             $sustancia = new Consumo();
             $sustancia->setIdConsumoSustancias($id);
@@ -38,7 +45,6 @@ class pacienteController
             } else {
                 $sust = false;
             }
-
 
             require_once 'layout/header.php';
             require_once 'layout/sidebar.php';
@@ -113,12 +119,12 @@ class pacienteController
                     $paciente->setId($user_id);
                     $save = $paciente->save();
                     $paciente_id = $save['paciente_id'];
-                    if($save) {
+                    if ($save) {
                         $expediente = new Expediente();
                         $expediente->setPacienteId($paciente_id);
                         $res = $expediente->save();
                         $expediente_id = $res['expediente_id'];
-                        if($res){
+                        if ($res) {
                             $expediente->code($paciente_id, $expediente_id);
                         }
 

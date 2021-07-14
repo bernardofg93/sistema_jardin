@@ -1,7 +1,7 @@
 <?php
-    if(isset($_GET['id'])) {
-        $idP = filter_var($_GET['id'], FILTER_VALIDATE_INT);
-    }
+if (isset($_GET['id'])) {
+    $idP = filter_var($_GET['id'], FILTER_VALIDATE_INT);
+}
 ?>
 
 <div class="container-fluid">
@@ -141,43 +141,36 @@
                                                 </div>
                                             </div>
                                             <!-- ./col -->
-                                        </div>
-                                </section>
-                                <!-- /.row -->
-
-                                <!-- Main content -->
-                                <section class="content">
-                                    <div class="container-fluid">
-                                        <!-- Small boxes (Stat box) -->
-                                        <div class="row">
                                             <div class="col-lg-3 col-6">
                                                 <!-- small box -->
                                                 <div class="small-box bg color-manila">
                                                     <div class="inner">
-                                                        <?php if (isset($ficha) && $ficha): ?>
+                                                        <?php if (isset($sust) && $sust): ?>
                                                             <i class="fas fa-check"></i> Generado
                                                         <?php else : ?>
                                                             <i class="fas fa-plus"></i> Generar
                                                         <?php endif; ?>
 
-                                                        <p>Ficha clinica</p>
+                                                        <p>sustancias</p>
                                                     </div>
                                                     <div class="icon">
                                                         <i class="fas fa-folder"></i>
                                                     </div>
-                                                    <a href="<?= base_url ?>fichaClinica/registro"
-                                                       class="small-box-footer"> <i
+                                                    <a href="<?= base_url ?>consumo/registro&id=<?= $id ?>"
+                                                       class="small-box-footer"><i
                                                                 class="fas fa-arrow-circle-right"></i></a>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
                                 </section>
+                                <!-- /.row -->
                                 <!-- /.row -->
                                 <!-- /.post -->
                             </div>
 </section>
 <!-- /.content -->
-<input type="hidden" id="idP" value="<?=$idP?>">
+<input type="hidden" id="idP" value="<?= $idP ?>">
 <!-- /.content-wrapper -->
 <?php include "layout/footer.php" ?>
-<script src="<?=base_url?>assets/js/paciente/expediente.js"></script>
+<script src="<?= base_url ?>assets/js/paciente/expediente.js"></script>

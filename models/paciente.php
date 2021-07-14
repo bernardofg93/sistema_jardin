@@ -5,6 +5,7 @@ class Paciente
     private $id;
     private $usuario_id;
     private $no_expediente;
+    private $expediente_id;
     private $nombre_pa;
     private $apellido_paterno;
     private $apellido_materno;
@@ -35,6 +36,17 @@ class Paciente
     public function setId($id)
     {
         $this->id = $id;
+    }
+
+
+    public function getExpedienteId()
+    {
+        return $this->expediente_id;
+    }
+
+    public function setExpedienteId($expediente_id)
+    {
+        $this->expediente_id = $expediente_id;
     }
 
     public function getUsuarioId()
@@ -217,6 +229,21 @@ class Paciente
     public function setImg_paciente($img_paciente)
     {
         $this->img_paciente = $img_paciente;
+    }
+
+    public function getValidateDataExp()
+    {
+        $sql = "SELECT 
+                *
+                FROM 
+                expediente e
+                INNER JOIN paciente p ON e.paciente_id = p.id_paciente
+                WHERE e.id_expediente = {$this->getExpedienteId()}
+                AND e.paciente_id = {$this->getId()}
+                ";
+        $res = $this->db->query($sql);
+        $res = $res->fetch_object();
+        return ['res' => true, 'idPac' => $res->id_paciente];
     }
 
     public function getOne()

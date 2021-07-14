@@ -1,0 +1,21 @@
+    /*
+    public function getAllDocs()
+    {
+        $sql = "SELECT
+                *
+                FROM expediente e
+                INNER JOIN paciente p ON e.paciente_id = p.id_paciente
+                INNER JOIN entrevista en ON e.id_expediente = en.expediente_id
+                INNER JOIN consumo_sustancias cs ON e.id_expediente = cs.expediente_id
+                WHERE e.id_expediente = {$this->getId()}
+                AND e.paciente_id = {$this->getPacienteId()}
+                ";
+
+        $res = $this->db->query($sql);
+        $res = $res->fetch_object();
+        $id = $res->id_expediente;
+        var_dump($res);
+        return ["idExp" => $id];
+    }
+
+}
