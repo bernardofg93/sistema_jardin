@@ -139,6 +139,7 @@ nav ul li a:hover {
     background: #C7B472;
 }
 
+
 .testNumber {
     border-color: #dc3545;
     padding-right: calc(1.5em + 0.75rem);
@@ -151,4 +152,15 @@ nav ul li a:hover {
 /* ====================== Colors ====================== */
 .fa-check{
     color: #7BD827;
+}
+
+.statePac {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    width: 70px;
+    height: 20px;
+    background: #555;
+    border-radius: 15px;
+    box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.6), 0px 1px 0px rgba(255, 255, 255, 0.3);
 }

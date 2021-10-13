@@ -1,6 +1,5 @@
 <?php
 
-
 class Expediente
 {
     private $id;
@@ -29,6 +28,17 @@ class Expediente
     public function setPacienteId($paciente_id)
     {
         $this->paciente_id = $paciente_id;
+    }
+
+    public function getOne(){
+        $sql = "SELECT 
+                *
+                FROM paciente p
+                INNER JOIN expediente e ON p.id_paciente = e.paciente_id
+                WHERE id_paciente = {$this->getPacienteId()}
+                AND e.id_expediente = {$this->getId()}";
+        $data = $this->db->query($sql);
+        return $data->fetch_object();
     }
 
     public function getAll()

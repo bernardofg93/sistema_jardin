@@ -156,7 +156,7 @@ function editData(data) {
 
             if (result.result === 'true') {
                 // mostrar notificación de Correcto
-                mostrarNotificacion('Usuario Actualizado Correctamente', 'correcto');
+                sweetAlert('Actualizado Correctamente', 'success');
             } else {
                 // hubo un error
                 mostrarNotificacion('Hubo un error...', 'error');

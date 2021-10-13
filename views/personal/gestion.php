@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h4 class="m-0">Registros</h4>
+            <h4 class="m-0">Gestión de empleados</h4>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -18,7 +18,7 @@
         <table id="tblRegistros" class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>Id</th>
+               <!-- <th>Id</th> -->
                 <th>Nombre</th>
                 <th>Apellidos</th>
                 <th>Rol</th>
@@ -30,7 +30,7 @@
             <tbody class="click">
             <?php while ($data = $registros->fetch_object()) : ?>
                 <tr>
-                    <td class="col-3"><?= $data->id_usuario ?></td>
+                  <!--  <td class="col-3"><?= $data->id_usuario ?></td> -->
                     <td class="col-3"><?= $data->nombre_us ?></td>
                     <td class="col-3"><?= $data->apellidos_us ?></td>
                     <td class="col-3"><?= $data->rol ?></td>

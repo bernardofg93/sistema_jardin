@@ -32,7 +32,7 @@ if (isset($_GET['id'])) {
                         </div>
 
                         <h3 class="profile-username text-center">
-                            <?= isset($data) && is_object($data) && $data->nombre_pa ? $data->nombre_pa : '' ?>
+                           Maria Perez
                         </h3>
                     </div>
                     <div class="card-body">
@@ -57,110 +57,10 @@ if (isset($_GET['id'])) {
 
                                 <!-- Main content -->
                                 <section class="content">
-                                    <div class="container-fluid">
+                                    <div class="">
                                         <!-- Small boxes (Stat box) -->
-                                        <div class="row">
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <?php if (isset($data) && is_object($data)): ?>
-                                                            <i class="fas fa-check"></i> <span>Generado</span>
-                                                        <?php else : ?>
-                                                            <i class="fas fa-plus"></i>Generar
-                                                        <?php endif; ?>
-                                                        <p>Datos personales</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="<?= base_url ?>paciente/registro&id=<?= $id ?>"
-                                                       class="small-box-footer" id="test"> <i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <?php if (isset($ent) && is_object($ent)): ?>
-                                                            <i class="fas fa-check"></i> Generado
-                                                        <?php else : ?>
-                                                            <i class="fas fa-plus"></i>
-                                                        <?php endif; ?>
-                                                        <p>Entrevista</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="<?= base_url ?>entrevista/paciente&id=<?= $id ?>"
-                                                       class="small-box-footer"> <i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <?php if (isset($dom) && is_object($dom)): ?>
-                                                            <i class="fas fa-check"></i> <span>Generado</span>
-                                                        <?php else : ?>
-                                                            <i class="fas fa-plus"></i> <span>Generar</span>
-                                                        <?php endif; ?>
-                                                        <p>Domicilio</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="<?= base_url ?>domicilio/paciente&id=<?= $id ?>"
-                                                       class="small-box-footer"> <i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <?php if (isset($sust) && $sust): ?>
-                                                            <i class="fas fa-check"></i> Generado
-                                                        <?php else : ?>
-                                                            <i class="fas fa-plus"></i> Generar
-                                                        <?php endif; ?>
+                                        <div class="row" id="containerExpediente">
 
-                                                        <p>sustancias</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="<?= base_url ?>consumo/registro&id=<?= $id ?>"
-                                                       class="small-box-footer"><i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
-                                            <!-- ./col -->
-                                            <div class="col-lg-3 col-6">
-                                                <!-- small box -->
-                                                <div class="small-box bg color-manila">
-                                                    <div class="inner">
-                                                        <?php if (isset($sust) && $sust): ?>
-                                                            <i class="fas fa-check"></i> Generado
-                                                        <?php else : ?>
-                                                            <i class="fas fa-plus"></i> Generar
-                                                        <?php endif; ?>
-
-                                                        <p>sustancias</p>
-                                                    </div>
-                                                    <div class="icon">
-                                                        <i class="fas fa-folder"></i>
-                                                    </div>
-                                                    <a href="<?= base_url ?>consumo/registro&id=<?= $id ?>"
-                                                       class="small-box-footer"><i
-                                                                class="fas fa-arrow-circle-right"></i></a>
-                                                </div>
-                                            </div>
                                         </div>
                                     </div>
                                 </section>
@@ -168,6 +68,7 @@ if (isset($_GET['id'])) {
                                 <!-- /.row -->
                                 <!-- /.post -->
                             </div>
+                        </div>
 </section>
 <!-- /.content -->
 <input type="hidden" id="idP" value="<?= $idP ?>">

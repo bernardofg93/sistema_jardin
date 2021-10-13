@@ -65,14 +65,16 @@ class pacienteController
     {
         if (isset($_GET['idExp']) && isset($_GET['idPac'])) {
             $id = isset($_GET['idPac']) ? filter_var($_GET['idPac'], FILTER_SANITIZE_NUMBER_INT) : false;
-            $paciente = new Paciente();
-            $paciente->setId($id);
+            $idExp = isset($_GET['idExp']) ? filter_var($_GET['idExp'], FILTER_SANITIZE_NUMBER_INT) : false;
+            $paciente = new Expediente();
+            $paciente->setId($idExp);
+            $paciente->setPacienteId($id);
             $data = $paciente->getOne();
             is_object($data) ? $edit = true : false;
+            require_once 'layout/header.php';
+            require_once 'layout/sidebar.php';
+            require_once 'views/paciente/registro.php';
         }
-        require_once 'layout/header.php';
-        require_once 'layout/sidebar.php';
-        require_once 'views/paciente/registro.php';
     }
 
     public function save()

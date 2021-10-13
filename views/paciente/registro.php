@@ -6,7 +6,7 @@
 <?php endif ?>
 
 <?php
-$paciente_id = isset($_GET['id']) ? filter_var($_GET['id'], FILTER_VALIDATE_INT) : false;
+$paciente_id = isset($_GET['idPac']) ? filter_var($_GET['idPac'], FILTER_VALIDATE_INT) : false;
 ?>
 
 <div class="container-fluid">

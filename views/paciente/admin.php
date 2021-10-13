@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h4 class="m-0">Registros</h4>
+            <h4 class="m-0">Gestión de pacientes</h4>
         </div><!-- /.col -->
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -18,27 +18,44 @@
         <table id="tblRegistros" class="table table-bordered table-striped">
             <thead>
             <tr>
-                <th>Id</th>
+                <!-- <th>Id</th> -->
                 <th>Nombre</th>
-                <th>Apellidos</th>
-                <th>Email</th>
-                <th>Status</th>
+                <th>Apellido paterno</th>
+                <th>Apellido materno</th>
+                <th>Gestion</th>
                 <th>Expediente</th>
+                <th>Reingreso</th>
             </tr>
             </thead>
             <tbody class="click">
             <?php while ($pac = $data->fetch_object()) : ?>
                 <tr>
-                    <td><?= $pac->id_paciente ?></td>
+                    <!--<td><?= $pac->id_paciente ?></td> -->
                     <td><?= $pac->nombre_pa ?></td>
                     <td><?= $pac->apellido_paterno ?></td>
                     <td><?= $pac->apellido_materno ?></td>
-                    <td><?= $pac->status_paciente ?></td>
-                    <td style="width: 10%; text-align: center"><a type="button"
-                                         href="<?= base_url ?>paciente/expediente&id=<?= $pac->id_paciente ?>"
-                                         class="btn color-manila btn-flat">
+                    <td class="txtStatePac">
+                        <div class="form-group clearfix">
+                            <div class="d-inline">
+                                <input id="checkEstado" type="checkbox" class="statePac">
+                            </div>
+                        </div>
+                    </td>
+                    <td style="width: 10%; text-align: center">
+                        <a type="button"
+                              href="<?= base_url ?>paciente/expediente&id=<?= $pac->id_paciente ?>"
+                              class="btn color-manila btn-flat">
                             <i class="fas fa-folder" style="color: #563d7c; "></i>
-                        </a></td>
+                        </a>
+                    </td>
+                    <td style="width: 10%; text-align: center">
+                        <a type="button"
+                              href="<?= base_url ?>paciente/expediente&id=<?= $pac->id_paciente ?>"
+                              class="btn color-manila btn-flat">
+                            <i class="fas fa-folder" style="color: #563d7c; "></i>
+                        </a>
+                    </td>
+
                 </tr>
             <?php endwhile; ?>
             </tbody>
@@ -49,4 +66,5 @@
 
 <?php include "layout/footer.php" ?>
 <script src="<?= base_url ?>assets/js/tableUser.js"></script>
+<script src="<?= base_url ?>assets/js/paciente/gestion.js"></script>
 
